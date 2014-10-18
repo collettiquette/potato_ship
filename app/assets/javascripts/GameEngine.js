@@ -94,6 +94,13 @@ var GameEngine = function () {
 	var update = function () {
 
           if (ready) {
+            var input_change = (
+              myPlayer.isAccelerating != cursors.up.isDown ||
+              myPlayer.isDecelerating != cursors.down.isDown ||
+              myPlayer.isTurningLeft != cursors.left.isDown ||
+              myPlayer.isTurningRight != cursors.right.isDown
+            );
+
             myPlayer.isAccelerating = cursors.up.isDown;
             myPlayer.isDecelerating = cursors.down.isDown;
             myPlayer.isTurningLeft = cursors.left.isDown;
@@ -106,6 +113,19 @@ var GameEngine = function () {
 
             game.physics.arcade.collide(playersGroup, obstacles);
             game.physics.arcade.collide(playersGroup, playersGroup);
+
+            if (input_change) {
+              var change = {
+                up: myPlayer.isAccelerating,
+                down: myPlayer.isDecelerating,
+                left: myPlayer.isTurningLeft,
+                right: myPlayer.isTurningRight
+              };
+              dispatcher.trigger('update_ship', {
+                change: change,
+                position: myPlayer.position()
+              });
+            }
           }
 	}
 
