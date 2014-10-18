@@ -18,4 +18,11 @@ WebsocketRails::EventMap.describe do
                                   with_method: :client_disconnected
   subscribe :new_message, to: Sockets::MessagesController,
                           with_method: :new
+  subscribe :update_score, to: Sockets::StatsController,
+                          with_method: :update_score
+  subscribe :update_kills, to: Sockets::StatsController,
+                          with_method: :update_kills
+  subscribe :update_deaths, to: Sockets::StatsController,
+                          with_method: :update_deaths
+
 end
