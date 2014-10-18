@@ -1,4 +1,4 @@
-var Player = function (id, game) {
+var Player = function (id) {
         var id = id;
 
 	var drag = 200,
@@ -22,21 +22,25 @@ var Player = function (id, game) {
 		sprite.body.drag.set(drag);
 		sprite.body.maxVelocity.set(maxVelocity);
 
-		bullets = game.add.group();
-		bullets.enableBody = true;
-		bullets.physicsBodyType = Phaser.Physics.ARCADE;
-		bullets.createMultiple(20, 'player-ship', 0, false);
-		bullets.setAll('scale.x', 0.25);
-		bullets.setAll('scale.y', 0.25);
-		bullets.setAll('anchor.x', 0.5);
-		bullets.setAll('anchor.y', 0.5);
-		bullets.setAll('outOfBoundsKill', true);
-		bullets.setAll('checkWorldBounds', true);
+		this.bullets = game.add.group();
+		this.bullets.enableBody = true;
+		// Add 20 bullets
+		for (var i = 0; i < 20; i++) {
+			var bullet = this.bullets.create(-100, -100, 'bullet');
+			bullet.kill();
+			//bullet.physicsBodyType = Phaser.Physics.ARCADE;
+			//bullet.body.immovable = true;
+			bullet.scale.set(0.25);
+			bullet.anchor.set(0.5);
+
+			this.bullets.add(bullet);
+		}
 
 		return sprite;
 	};
 
 	var update = function () {
+		//console.log(bullets);
 		// The player's acceleration/deceleration
 		if (this.isAccelerating) {
 			game.physics.arcade.accelerationFromRotation(sprite.rotation, maxVelocity, sprite.body.acceleration);
@@ -61,14 +65,13 @@ var Player = function (id, game) {
 	}
 
 	var shoot = function () {
-		console.log('fireZeBullets');
-		var bullet = bullets.getFirstDead();
+		var bullet = this.bullets.getFirstDead();
+
 		bullet.reset(sprite.x, sprite.y);
 		bullet.body.velocity.x = 0;
 		bullet.body.velocity.y = 0;
-		console.log(sprite.rotation * Math.PI);
-		//game.physics.arcade.accelerationFromRotation(sprite.rotation, maxVelocity * 2, bullet.body.acceleration);
-		game.physics.arcade.velocityFromAngle(sprite.rotation * (180 / Math.PI), maxVelocity * 2, bullet.body.velocity);
+
+		game.physics.arcade.velocityFromAngle(sprite.rotation * (180 / Math.PI), maxVelocity * 3, bullet.body.velocity);
 	}
 
 	return {
@@ -77,6 +80,7 @@ var Player = function (id, game) {
 		update: update,
 		destroy: destroy,
 		shoot: shoot,
+		bullets: bullets,
 		isAccelerating: isAccelerating,
 		isDecelerating: isDecelerating,
 		isTurningLeft: isTurningLeft,
