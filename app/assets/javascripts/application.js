@@ -26,7 +26,7 @@ $(document).ready( function() {
 
   if($game_container.length > 0) {
     game_instance.init();
-    connection_handler.init();
+    connection_handler.init(game_instance);
   }
 
 });
