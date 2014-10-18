@@ -1,5 +1,5 @@
 module Sockets
-  class MessagesController < WebsocketRails::BaseController
+  class MessagesController < Sockets::ApplicationController
     def new
       puts "New message: #{message[:message]}"
 

@@ -1,5 +1,5 @@
 module Sockets
-  class PlayersController < RedisConnectionController
+  class PlayersController < Sockets::ApplicationController
     def initialize_session
       puts 'Initializing session'
       redis[:games] = [].to_json
@@ -13,7 +13,6 @@ module Sockets
       game << Stat.new(player: player, game_id: game.id)
       games << game
       redis[:games] = games.to_json
-
       WebsocketRails[:da_game].trigger(:player_connected, { 
         players: game.player_names,
         new_player_id: player.id
