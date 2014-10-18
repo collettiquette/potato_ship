@@ -1,12 +1,5 @@
-# root = '/home/cardfool'
-# working_directory root
-# pid '/tmp/pids/unicorn.pid'
 # stderr_path "#{root}/log/unicorn.log"
 # stdout_path "#{root}/log/unicorn.log"
-#
-# listen '/tmp/unicorn.sock'
-# worker_processes 2
-# timeout 60
 worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
 timeout 15
 preload_app true
