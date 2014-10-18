@@ -11,9 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20141018050039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "players", force: true do |t|
+    t.string "name"
+  end
+
+  create_table "stats", force: true do |t|
+    t.integer "player_id"
+    t.integer "game_id"
+    t.integer "score"
+    t.integer "kills"
+    t.integer "deaths"
+  end
 
 end

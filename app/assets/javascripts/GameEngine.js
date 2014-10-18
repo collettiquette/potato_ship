@@ -1,8 +1,9 @@
 var GameEngine = function () {
 
 	var game;
-	var cursors	;
-	var sprite;
+	var cursors;
+
+	var players;
 	var enemies;
 
 	var init = function () {
@@ -27,19 +28,20 @@ var GameEngine = function () {
 		// Set up physics
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
-		// Set up the player
-		sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'phaser');
-		game.physics.arcade.enable(sprite);
-		sprite.anchor.set(0.5);
-		sprite.body.drag.set(100);
-		sprite.body.maxVelocity.set(200);
+		// The size of the world
+		game.world.setBounds(0, 0, 1600, 1200);
+
+		// Set up the players
+		players = game.add.group();
+		var myPlayer = new Player(game);
+		players.add(myPlayer.create());
 
 		// Set up enemies
 		enemies = game.add.group();
 		enemies.enableBody = true;
 
 		// Add a few testable enemies
-		for (var i = 0; i < 10; i++) {
+		for (var i = 0; i < 25; i++) {
 			addEnemy();
 		}
 
@@ -50,38 +52,22 @@ var GameEngine = function () {
 	}
 
 	var addEnemy = function () {
-		var x = Math.random() * 800;
-		var y = Math.random() * 600;
+		var x = Math.random() * 1600;
+		var y = Math.random() * 1200;
 		var one = enemies.create(x, y, 'one');
 		one.body.immovable = true;
 	}
 
 	var update = function () {
+		//console.log(players);
+		players.callAll('update', null, cursors);
 
-		// Accelerating the player
-		if (cursors.up.isDown) {
-			game.physics.arcade.accelerationFromRotation(sprite.rotation, 200, sprite.body.acceleration);
-		} else if (cursors.down.isDown) {
-			game.physics.arcade.accelerationFromRotation(sprite.rotation, -200, sprite.body.acceleration);
-		} else {
-			sprite.body.acceleration.set(0);
-		}
-
-		// Turning the player
-		if (cursors.left.isDown) {
-			sprite.body.angularVelocity = -300;
-		} else if (cursors.right.isDown) {
-			sprite.body.angularVelocity = 300;
-		} else {
-			sprite.body.angularVelocity = 0;
-		}
-
-		game.physics.arcade.collide(sprite, enemies);
+		game.physics.arcade.collide(players, enemies);
 
 	}
 
 	var render = function () {
-
+		//game.debug.cameraInfo(game.camera, 32, 32);
 	}
 
 	return {
