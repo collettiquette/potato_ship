@@ -30,7 +30,7 @@ WebsocketRails.setup do |config|
   # Will not be used unless standalone or synchronization mode
   # is enabled.
   if Rails.env.production?
-    config.redis_options = { url: ENV["REDISGREEN_URL"] }
+    config.redis_options = { url: ENV["REDISGREEN_URL"], driver: :hiredis }
   else
     config.redis_options = { url: "redis://localhost:6379" }
   end

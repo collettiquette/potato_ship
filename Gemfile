@@ -41,3 +41,4 @@ gem 'rails_12factor', group: :production
 
 gem 'websocket-rails'
 gem 'annotate'
+gem 'hiredis'
