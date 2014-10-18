@@ -13,8 +13,15 @@ module Sockets
       game << Stat.new(player: player, game_id: game.id)
       games << game
       redis[:games] = games.to_json
-      WebsocketRails[:da_game].trigger(:player_connected, 
-        { players: game.player_names, new_player_name: player.name } )
+
+      WebsocketRails[:da_game].trigger(:player_connected, { 
+        players: game.player_names,
+        new_player_id: player.id
+      })
+
+      WebsocketRails[:da_game].trigger(:new_message, {
+        message: "#{player.name} joined game."
+      })
     end
 
     def client_disconnected

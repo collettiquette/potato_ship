@@ -1,4 +1,5 @@
-var Player = function (game) {
+var Player = function (id, game) {
+        var id = id;
 
 	var drag = 200,
 		maxVelocity = 200;
@@ -44,6 +45,7 @@ var Player = function (game) {
 	}
 
 	return {
+                id: id,
 		create: create,
 		update: update,
 		isAccelerating: isAccelerating,
