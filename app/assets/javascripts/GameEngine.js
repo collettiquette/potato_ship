@@ -97,40 +97,41 @@ var GameEngine = function () {
 
 	var update = function () {
 
-          if (ready) {
-            var input_change = (
-              myPlayer.isAccelerating != cursors.up.isDown ||
-              myPlayer.isDecelerating != cursors.down.isDown ||
-              myPlayer.isTurningLeft != cursors.left.isDown ||
-              myPlayer.isTurningRight != cursors.right.isDown
-            );
+		if (!ready)
+			return;
 
-            myPlayer.isAccelerating = cursors.up.isDown;
-            myPlayer.isDecelerating = cursors.down.isDown;
-            myPlayer.isTurningLeft = cursors.left.isDown;
-            myPlayer.isTurningRight = cursors.right.isDown;
+        var input_change = (
+          myPlayer.isAccelerating != cursors.up.isDown ||
+          myPlayer.isDecelerating != cursors.down.isDown ||
+          myPlayer.isTurningLeft != cursors.left.isDown ||
+          myPlayer.isTurningRight != cursors.right.isDown
+        );
 
-            $.each(players, function (index, player) {
-				player.update();
-				game.physics.arcade.collide(player.bullets, obstacles);
-            });
+        myPlayer.isAccelerating = cursors.up.isDown;
+        myPlayer.isDecelerating = cursors.down.isDown;
+        myPlayer.isTurningLeft = cursors.left.isDown;
+        myPlayer.isTurningRight = cursors.right.isDown;
 
-            game.physics.arcade.collide(playersGroup, obstacles);
-            game.physics.arcade.collide(playersGroup, playersGroup);
+        $.each(players, function (index, player) {
+			player.update();
+			game.physics.arcade.collide(player.bullets, obstacles);
+        });
 
-            if (input_change) {
-              var change = {
-                up: myPlayer.isAccelerating,
-                down: myPlayer.isDecelerating,
-                left: myPlayer.isTurningLeft,
-                right: myPlayer.isTurningRight
-              };
-              ConnectionHandler.dispatcher.trigger('update_ship', {
-                change: change,
-                position: myPlayer.position()
-              });
-            }
-          }
+        game.physics.arcade.collide(playersGroup, obstacles);
+        game.physics.arcade.collide(playersGroup, playersGroup);
+
+        if (input_change) {
+          var change = {
+            up: myPlayer.isAccelerating,
+            down: myPlayer.isDecelerating,
+            left: myPlayer.isTurningLeft,
+            right: myPlayer.isTurningRight
+          };
+          ConnectionHandler.dispatcher.trigger('update_ship', {
+            change: change,
+            position: myPlayer.position()
+          });
+        }
 	}
 
 	var render = function () {
