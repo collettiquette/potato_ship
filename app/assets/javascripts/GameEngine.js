@@ -95,6 +95,17 @@ var GameEngine = function () {
           });
 	}
 
+	var bullet_hits_obstacle = function (bullet, obstacle) {
+		console.log('bullet hit obstacle');
+		bullet.kill();
+	};
+
+	var bullet_hits_player = function (bullet, player) {
+		console.log('bullet hit player');
+		bullet.kill();
+		player.kill();
+	};
+
 	var update = function () {
 
 		if (!ready)
@@ -114,7 +125,8 @@ var GameEngine = function () {
 
         $.each(players, function (index, player) {
 			player.update();
-			game.physics.arcade.collide(player.bullets, obstacles);
+			game.physics.arcade.collide(player.bullets, obstacles, bullet_hits_obstacle);
+			game.physics.arcade.collide(player.bullets, playersGroup, bullet_hits_player);
         });
 
         game.physics.arcade.collide(playersGroup, obstacles);
