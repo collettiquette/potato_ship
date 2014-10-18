@@ -76,14 +76,17 @@ var GameEngine = function () {
 	}
 
 	var deletePlayer = function(name) {
-		$.each(players, function (index, player) {
-			if (player.name == name) {
-				player.destroy();
-				delete players[index];
+          $.each(players, function (index, player) {
+            if (player.id == name) {
+              player.destroy();
+              console.log(players);
+              players.splice(index, 1);
 
-				return;
-			}
-		});
+              console.log(players);
+
+              return;
+            }
+          });
 	}
 
 	var addEnemy = function () {
@@ -94,20 +97,21 @@ var GameEngine = function () {
 	}
 
 	var update = function () {
-        if (ready) {
-			//console.log(players[0]);
-			myPlayer.isAccelerating = cursors.up.isDown;
-			myPlayer.isDecelerating = cursors.down.isDown;
-			myPlayer.isTurningLeft = cursors.left.isDown;
-			myPlayer.isTurningRight = cursors.right.isDown;
+          if (ready) {
+            //console.log(players[0]);
+            myPlayer.isAccelerating = cursors.up.isDown;
+            myPlayer.isDecelerating = cursors.down.isDown;
+            myPlayer.isTurningLeft = cursors.left.isDown;
+            myPlayer.isTurningRight = cursors.right.isDown;
 
-			for (var i = 0; i < players.length; i++) {
-				players[i].update();
-			}
+            $.each(players, function (index, player) {
+              console.log(player);
+              player.update();
+            });
 
-			game.physics.arcade.collide(playersGroup, enemies);
-			game.physics.arcade.collide(playersGroup, playersGroup);
-        }
+            game.physics.arcade.collide(playersGroup, enemies);
+            game.physics.arcade.collide(playersGroup, playersGroup);
+          }
 	}
 
 	var render = function () {
@@ -118,7 +122,8 @@ var GameEngine = function () {
 		init: init,
 		render: render,
                 spawnRemotePlayer: spawnRemotePlayer,
-                spawnMyPlayer: spawnMyPlayer
+                spawnMyPlayer: spawnMyPlayer,
+                deletePlayer: deletePlayer
 	};
 
 };

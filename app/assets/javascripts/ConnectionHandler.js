@@ -36,6 +36,11 @@ var ConnectionHandler = function () {
       }
     });
 
+    channel.bind('player_disconnected', function(data) {
+      console.log("Player delete: " + data.player_name);
+      game_instance.deletePlayer(data.player_name);   
+    });
+
     dispatcher.on_open = function(data) {
       console.log('Connection has been established: ', data);
       console.log(getCookie('player_name'));

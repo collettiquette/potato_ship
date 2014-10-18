@@ -22,14 +22,21 @@ module Sockets
     end
 
     def client_disconnected
-      puts "Player #{client_id} disconnected"
       games.each do |game_id, game|
-        if game.remove(client_id)
+        stat = game.remove(client_id)
+
+        if stat
+          player = stat.player
+
+          WebsocketRails[:da_game].trigger(:player_disconnected, { player_name: player.name })
+          WebsocketRails[:da_game].trigger(:new_message, { message: "#{player.name} left game." })
+          puts "Player #{player.name} - #{client_id} disconnected"
+
           break game
         end
       end
       store_games
-      puts "#{client_id} removed"
+
     end
 
     private
