@@ -22,7 +22,7 @@ var GameEngine = function () {
 
 	var preload = function () {
 
-		game.load.image('player-ship', 'assets/images/player-ship.png');
+		game.load.image('player-ship', '/images/player-ship.png');
 
 	}
 
@@ -88,32 +88,36 @@ var GameEngine = function () {
 	}
 
 	var deletePlayer = function(name) {
-		$.each(players, function (index, player) {
-			if (player.name == name) {
-				player.destroy();
-				delete players[index];
+          $.each(players, function (index, player) {
+            if (player.id == name) {
+              player.destroy();
+              console.log(players);
+              players.splice(index, 1);
 
-				return;
-			}
-		});
+              console.log(players);
+
+              return;
+            }
+          });
 	}
 
 	var update = function () {
-        if (ready) {
-			myPlayer.isAccelerating = cursors.up.isDown;
-			myPlayer.isDecelerating = cursors.down.isDown;
-			myPlayer.isTurningLeft = cursors.left.isDown;
-			myPlayer.isTurningRight = cursors.right.isDown;
 
-			$.each(players, function (index, player) {
+          if (ready) {
+            //console.log(players[0]);
+            myPlayer.isAccelerating = cursors.up.isDown;
+            myPlayer.isDecelerating = cursors.down.isDown;
+            myPlayer.isTurningLeft = cursors.left.isDown;
+            myPlayer.isTurningRight = cursors.right.isDown;
+
+            $.each(players, function (index, player) {
 				player.update();
-				//console.log(player);
 				game.physics.arcade.collide(player.bullets, obstacles);
-			});
+            });
 
-			game.physics.arcade.collide(playersGroup, obstacles);
-			game.physics.arcade.collide(playersGroup, playersGroup);
-        }
+            game.physics.arcade.collide(playersGroup, obstacles);
+            game.physics.arcade.collide(playersGroup, playersGroup);
+          }
 	}
 
 	var render = function () {
@@ -123,8 +127,9 @@ var GameEngine = function () {
 	return {
 		init: init,
 		render: render,
-		spawnRemotePlayer: spawnRemotePlayer,
-		spawnMyPlayer: spawnMyPlayer
+                spawnRemotePlayer: spawnRemotePlayer,
+                spawnMyPlayer: spawnMyPlayer,
+                deletePlayer: deletePlayer
 	};
 
 };
