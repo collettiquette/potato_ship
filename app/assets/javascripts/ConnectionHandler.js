@@ -20,12 +20,15 @@ var ConnectionHandler = function () {
     dispatcher = new WebSocketRails(window.location.hostname + ':3218/websocket');
     channel = dispatcher.subscribe('da_game');
     game_instance = game_instance;
-
+    
     channel.bind('player_connected', function(data) {
-      return false;
       if(myName == data.new_player_name){
         game_instance.spawnMyPlayer(myName);
-        
+
+        $.each(data.players, function(index, name) {
+          game_instance.spawnRemotePlayer(name);
+        });
+
       } else {
         game_instance.spawnRemotePlayer(data.new_player_name);
       }
