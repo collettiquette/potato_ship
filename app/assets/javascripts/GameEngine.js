@@ -10,8 +10,12 @@ var GameEngine = function () {
 	var obstacles;
 
 	var ready = false;
+	//var test;
 
 	var init = function () {
+		// Set up connection handler
+		ConnectionHandler.init();
+
 		game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-screen', {
 			preload: preload,
 			create: create,
@@ -121,7 +125,7 @@ var GameEngine = function () {
                 left: myPlayer.isTurningLeft,
                 right: myPlayer.isTurningRight
               };
-              dispatcher.trigger('update_ship', {
+              ConnectionHandler.dispatcher.trigger('update_ship', {
                 change: change,
                 position: myPlayer.position()
               });

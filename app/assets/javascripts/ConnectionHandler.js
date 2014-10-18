@@ -9,22 +9,21 @@ function getCookie(cname) {
     return "";
 }
 
-var ConnectionHandler = function () {
-  console.log('New connection!');
-  var dispatcher,
-      channel,
-      game_instance,
-      myName;
+var ConnectionHandler = {
+  //console.log('New connection!');
+  dispatcher: null,
+  channel: null,
+  myName: null,
 
-  var init = function (game_instance) {
-    dispatcher = new WebSocketRails(window.location.hostname + ':3218/websocket');
-    channel = dispatcher.subscribe('da_game');
-    game_instance = game_instance;
+  init: function () {
+    this.dispatcher = new WebSocketRails(window.location.hostname + ':3218/websocket');
+    this.channel = this.dispatcher.subscribe('da_game');
 
-    channel.bind('player_connected', function(data) {
-      dispatcher.trigger('include_obstacles', { game_id: data.game_id });
+    this.channel.bind('player_connected', function(data) {
+      console.log('player connected');
+      ConnectionHandler.dispatcher.trigger('include_obstacles', { game_id: data.game_id });
       if(myName == data.new_player_name){
-        game_instance.spawnMyPlayer(myName);
+        game_instance.spawnMyPlayer(this.myName);
 
         $.each(data.players, function(index, name) {
           if(myName != name){
@@ -37,27 +36,24 @@ var ConnectionHandler = function () {
       }
     });
 
-    channel.bind('player_disconnected', function(data) {
+    this.channel.bind('player_disconnected', function(data) {
       console.log("Player delete: " + data.player_name);
       game_instance.deletePlayer(data.player_name);
     });
 
-    channel.bind('include_obstacles', function (data) {
+    this.channel.bind('include_obstacles', function (data) {
+      console.log('include obstacles');
       game_instance.loadObstacles(data);
     });
 
-    dispatcher.on_open = function(data) {
+    this.dispatcher.on_open = function(data) {
       console.log('Connection has been established: ', data);
       console.log(getCookie('player_name'));
       myName = getCookie('player_name');
-      dispatcher.trigger("player_connected", { player_name: myName });
+      this.trigger("player_connected", { player_name: myName });
     }
 
-    MessageHandler(dispatcher, channel).init();
-  };
-
-  return {
-    init: init
+    MessageHandler(this.dispatcher, this.channel).init();
   }
 
 }
