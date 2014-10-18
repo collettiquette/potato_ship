@@ -88,7 +88,7 @@ var GameEngine = function () {
 var game_instance = GameEngine();
 game_instance.init();
 
-dispatcher = new WebSocketRails(window.location.host + '/websocket');
+dispatcher = new WebSocketRails(window.location.hostname + ':3218/websocket');
 channel = dispatcher.subscribe('da_game');
 
 channel.bind('player_connected', function(data) {
