@@ -3,7 +3,8 @@ var GameEngine = function () {
 	var game;
 	var cursors;
 
-	var players;
+	var players = [];
+	var playerGroup;
 	var enemies;
 
 	var init = function () {
@@ -32,9 +33,10 @@ var GameEngine = function () {
 		game.world.setBounds(0, 0, 1600, 1200);
 
 		// Set up the players
-		players = game.add.group();
 		var myPlayer = new Player(game);
-		players.add(myPlayer.create());
+		playersGroup = game.add.group();
+		playersGroup.add(myPlayer.create());
+		players.push(myPlayer);
 
 		// Set up enemies
 		enemies = game.add.group();
@@ -59,10 +61,11 @@ var GameEngine = function () {
 	}
 
 	var update = function () {
-		//console.log(players);
-		players.callAll('update', null, cursors);
+		for (var i = 0; i < players.length; i++) {
+			players[i].update(cursors);
+		}
 
-		game.physics.arcade.collide(players, enemies);
+		game.physics.arcade.collide(playersGroup, enemies);
 
 	}
 
