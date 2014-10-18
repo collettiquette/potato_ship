@@ -1,12 +1,13 @@
+var game;
+
 var GameEngine = function () {
 
-	var game;
 	var cursors;
 
 	var myPlayer;
 	var players = [];
 	var playerGroup;
-	var enemies;
+	var obstacles;
 
 	var ready = false;
 
@@ -35,20 +36,21 @@ var GameEngine = function () {
 		// The size of the world
 		game.world.setBounds(0, 0, 1600, 1200);
 
-		// Set up enemies
-		enemies = game.add.group();
-		enemies.enableBody = true;
-
-		// Add a few testable enemies
-		for (var i = 0; i < 25; i++) {
-			addEnemy();
-			//addPlayer();
-		}
-
 		// A testing key to add an enemy to the world
 		var key_shoot = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		key_shoot.onDown.add(fireZeBullets, this);
 
+	}
+
+	var loadObstacles = function (obstacleData) {
+		// Set up obstacles
+		obstacles = game.add.group();
+		obstacles.enableBody = true;
+
+		$.each(obstacleData.obstacles, function (index, which) {
+			var obstacle = obstacles.create(which.x, which.y, 'one');
+			obstacle.body.immovable = true;
+		});
 	}
 
 	var fireZeBullets = function () {
@@ -56,19 +58,19 @@ var GameEngine = function () {
 	}
 
 	var spawnMyPlayer = function (name) {
-          myPlayer = new Player(name, game);
+          myPlayer = new Player(name);
           playersGroup = game.add.group();
           var mpSprite = myPlayer.create();
           playersGroup.add(mpSprite);
           players.push(myPlayer);
           game.camera.follow(mpSprite);
-          ready = true
+          ready = true;
 	}
 
 	var spawnRemotePlayer = function (name) {
           var x = Math.random() * 1600;
           var y = Math.random() * 1200;
-          var myPlayerz = new Player(name, game);
+          var myPlayerz = new Player(name);
           var myPlayerSprite = myPlayerz.create();
           myPlayerSprite.reset(x, y);
           playersGroup.add(myPlayerSprite);
@@ -89,14 +91,8 @@ var GameEngine = function () {
           });
 	}
 
-	var addEnemy = function () {
-		var x = Math.random() * 1600;
-		var y = Math.random() * 1200;
-		var one = enemies.create(x, y, 'one');
-		one.body.immovable = true;
-	}
-
 	var update = function () {
+
           if (ready) {
             var input_change = (
               myPlayer.isAccelerating != cursors.up.isDown ||
@@ -105,17 +101,17 @@ var GameEngine = function () {
               myPlayer.isTurningRight != cursors.right.isDown
             );
 
-            //console.log(players[0]);
             myPlayer.isAccelerating = cursors.up.isDown;
             myPlayer.isDecelerating = cursors.down.isDown;
             myPlayer.isTurningLeft = cursors.left.isDown;
             myPlayer.isTurningRight = cursors.right.isDown;
 
             $.each(players, function (index, player) {
-              player.update();
+				player.update();
+				game.physics.arcade.collide(player.bullets, obstacles);
             });
 
-            game.physics.arcade.collide(playersGroup, enemies);
+            game.physics.arcade.collide(playersGroup, obstacles);
             game.physics.arcade.collide(playersGroup, playersGroup);
 
             if (input_change) {
@@ -140,6 +136,7 @@ var GameEngine = function () {
 	return {
 		init: init,
 		render: render,
+		loadObstacles: loadObstacles,
                 spawnRemotePlayer: spawnRemotePlayer,
                 spawnMyPlayer: spawnMyPlayer,
                 deletePlayer: deletePlayer

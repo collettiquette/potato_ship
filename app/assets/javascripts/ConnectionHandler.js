@@ -43,7 +43,7 @@ var ConnectionHandler = function () {
     });
 
     channel.bind('include_obstacles', function (data) {
-      console.log(data);
+      game_instance.loadObstacles(data);
     });
 
     dispatcher.on_open = function(data) {

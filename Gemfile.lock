@@ -153,6 +153,7 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
+  hiredis
   jbuilder (~> 2.0)
   jquery-rails
   pg
