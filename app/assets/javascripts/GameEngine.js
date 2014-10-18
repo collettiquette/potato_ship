@@ -105,7 +105,6 @@ var GameEngine = function () {
             myPlayer.isTurningRight = cursors.right.isDown;
 
             $.each(players, function (index, player) {
-              console.log(player);
               player.update();
             });
 
