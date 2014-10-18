@@ -5,6 +5,7 @@ var Player = function (id, game) {
 		maxVelocity = 200;
 
 	var sprite,
+		bullets,
 		isAccelerating = false,
 		isDecelerating = false,
 		isTurningLeft = false,
@@ -12,7 +13,7 @@ var Player = function (id, game) {
 
 	var create = function () {
 		console.log('Player.create');
-		sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'phaser');
+		sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'player-ship');
 
 		game.physics.arcade.enable(sprite);
 
@@ -20,6 +21,17 @@ var Player = function (id, game) {
 		sprite.body.collideWorldBounds = true;
 		sprite.body.drag.set(drag);
 		sprite.body.maxVelocity.set(maxVelocity);
+
+		bullets = game.add.group();
+		bullets.enableBody = true;
+		bullets.physicsBodyType = Phaser.Physics.ARCADE;
+		bullets.createMultiple(20, 'player-ship', 0, false);
+		bullets.setAll('scale.x', 0.25);
+		bullets.setAll('scale.y', 0.25);
+		bullets.setAll('anchor.x', 0.5);
+		bullets.setAll('anchor.y', 0.5);
+		bullets.setAll('outOfBoundsKill', true);
+		bullets.setAll('checkWorldBounds', true);
 
 		return sprite;
 	};
@@ -44,10 +56,22 @@ var Player = function (id, game) {
 		}
 	}
 
+	var shoot = function () {
+		console.log('fireZeBullets');
+		var bullet = bullets.getFirstDead();
+		bullet.reset(sprite.x, sprite.y);
+		bullet.body.velocity.x = 0;
+		bullet.body.velocity.y = 0;
+		console.log(sprite.rotation * Math.PI);
+		//game.physics.arcade.accelerationFromRotation(sprite.rotation, maxVelocity * 2, bullet.body.acceleration);
+		game.physics.arcade.velocityFromAngle(sprite.rotation * (180 / Math.PI), maxVelocity * 2, bullet.body.velocity);
+	}
+
 	return {
-                id: id,
+		id: id,
 		create: create,
 		update: update,
+		shoot: shoot,
 		isAccelerating: isAccelerating,
 		isDecelerating: isDecelerating,
 		isTurningLeft: isTurningLeft,

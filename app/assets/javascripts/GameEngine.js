@@ -8,7 +8,7 @@ var GameEngine = function () {
 	var playerGroup;
 	var enemies;
 
-        var ready = false;
+	var ready = false;
 
 	var init = function () {
 		game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-screen', {
@@ -21,7 +21,7 @@ var GameEngine = function () {
 
 	var preload = function () {
 
-		game.load.image('phaser', 'assets/images/player-ship.png');
+		game.load.image('player-ship', 'assets/images/player-ship.png');
 
 	}
 
@@ -46,9 +46,13 @@ var GameEngine = function () {
 		}
 
 		// A testing key to add an enemy to the world
-		var key_addEnemy = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
-		key_addEnemy.onDown.add(addEnemy, this);
+		var key_shoot = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		key_shoot.onDown.add(fireZeBullets, this);
 
+	}
+
+	var fireZeBullets = function () {
+		myPlayer.shoot();
 	}
 
 	var spawnMyPlayer = function (name) {
@@ -79,20 +83,20 @@ var GameEngine = function () {
 	}
 
 	var update = function () {
-          if(ready) {
-		//console.log(players[0]);
-		myPlayer.isAccelerating = cursors.up.isDown;
-		myPlayer.isDecelerating = cursors.down.isDown;
-		myPlayer.isTurningLeft = cursors.left.isDown;
-		myPlayer.isTurningRight = cursors.right.isDown;
+        if (ready) {
+			//console.log(players[0]);
+			myPlayer.isAccelerating = cursors.up.isDown;
+			myPlayer.isDecelerating = cursors.down.isDown;
+			myPlayer.isTurningLeft = cursors.left.isDown;
+			myPlayer.isTurningRight = cursors.right.isDown;
 
-		for (var i = 0; i < players.length; i++) {
-			players[i].update();
-		}
+			for (var i = 0; i < players.length; i++) {
+				players[i].update();
+			}
 
-		game.physics.arcade.collide(playersGroup, enemies);
-		game.physics.arcade.collide(playersGroup, playersGroup);
-          }
+			game.physics.arcade.collide(playersGroup, enemies);
+			game.physics.arcade.collide(playersGroup, playersGroup);
+        }
 	}
 
 	var render = function () {
