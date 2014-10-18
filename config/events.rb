@@ -16,4 +16,6 @@ WebsocketRails::EventMap.describe do
                                with_method: :player_connected
   subscribe :client_disconnected, to: Sockets::PlayersController,
                                   with_method: :client_disconnected
+  subscribe :new_message, to: Sockets::MessagesController,
+                          with_method: :new
 end
