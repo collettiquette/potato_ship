@@ -26,7 +26,9 @@ var ConnectionHandler = function () {
         game_instance.spawnMyPlayer(myName);
 
         $.each(data.players, function(index, name) {
-          game_instance.spawnRemotePlayer(name);
+          if(myName != name){
+            game_instance.spawnRemotePlayer(name);
+          }
         });
 
       } else {
