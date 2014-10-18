@@ -71,6 +71,14 @@ var Player = function (id, game) {
 		game.physics.arcade.velocityFromAngle(sprite.rotation * (180 / Math.PI), maxVelocity * 2, bullet.body.velocity);
 	}
 
+	var position = function () {
+		return {
+			x: sprite.x,
+			y: sprite.y,
+			angle: sprite.rotation
+		}
+	}
+
 	return {
 		id: id,
 		create: create,
@@ -80,7 +88,8 @@ var Player = function (id, game) {
 		isAccelerating: isAccelerating,
 		isDecelerating: isDecelerating,
 		isTurningLeft: isTurningLeft,
-		isTurningRight: isTurningRight
+		isTurningRight: isTurningRight,
+		position: position
 	}
 
 }

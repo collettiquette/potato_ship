@@ -39,7 +39,7 @@ var ConnectionHandler = function () {
 
     channel.bind('player_disconnected', function(data) {
       console.log("Player delete: " + data.player_name);
-      game_instance.deletePlayer(data.player_name);   
+      game_instance.deletePlayer(data.player_name);
     });
 
     channel.bind('include_obstacles', function (data) {
