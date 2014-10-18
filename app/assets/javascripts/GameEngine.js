@@ -125,7 +125,7 @@ var GameEngine = function () {
                 left: myPlayer.isTurningLeft,
                 right: myPlayer.isTurningRight
               };
-              dispatcher.trigger('update_ship', {
+              ConnectionHandler.dispatcher.trigger('update_ship', {
                 change: change,
                 position: myPlayer.position()
               });
