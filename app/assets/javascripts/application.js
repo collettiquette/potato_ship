@@ -17,14 +17,13 @@
 //= require websocket_rails/main
 
 
-var game = function() {
+var GameEngine = function () {
 
-	var phaser;
+	var game;
 	var sprite;
 
-	function init() {
-		console.log('Potato ship engage');
-		phaser = new Phaser.Game(800, 600, Phaser.AUTO, 'game-screen', {
+	var init = function () {
+		game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-screen', {
 			preload: preload,
 			create: create,
 			update: update,
@@ -32,13 +31,13 @@ var game = function() {
 		});
 	}
 
-	function preload() {
+	var preload = function () {
 
 		game.load.image('phaser', 'assets/images/player-ship.png');
 
 	}
 
-	function create() {
+	var create = function () {
 
 		//  To make the sprite move we need to enable Arcade Physics
 		game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -51,7 +50,7 @@ var game = function() {
 
 	}
 
-	function update () {
+	var update = function () {
 
 		//  If the sprite is > 8px away from the pointer then let's move to it
 		if (game.physics.arcade.distanceToPointer(sprite, game.input.activePointer) > 8) {
@@ -65,17 +64,18 @@ var game = function() {
 
 	}
 
-	function render () {
+	var render = function () {
 
 		game.debug.inputInfo(32, 32);
 
 	}
 
 	return {
-		init: init
+		init: init,
+		render: render
 	};
 
 };
 
-//console.log(game);
-//game.init;
+var game_instance = GameEngine();
+game_instance.init();
