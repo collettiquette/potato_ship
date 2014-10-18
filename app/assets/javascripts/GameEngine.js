@@ -75,6 +75,17 @@ var GameEngine = function () {
           players.push(myPlayerz);
 	}
 
+	var deletePlayer = function(name) {
+		$.each(players, function (index, player) {
+			if (player.name == name) {
+				player.destroy();
+				delete players[index];
+
+				return;
+			}
+		});
+	}
+
 	var addEnemy = function () {
 		var x = Math.random() * 1600;
 		var y = Math.random() * 1200;

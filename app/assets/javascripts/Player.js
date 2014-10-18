@@ -56,6 +56,10 @@ var Player = function (id, game) {
 		}
 	}
 
+	var destroy = function () {
+		sprite.destroy();
+	}
+
 	var shoot = function () {
 		console.log('fireZeBullets');
 		var bullet = bullets.getFirstDead();
@@ -71,6 +75,7 @@ var Player = function (id, game) {
 		id: id,
 		create: create,
 		update: update,
+		destroy: destroy,
 		shoot: shoot,
 		isAccelerating: isAccelerating,
 		isDecelerating: isDecelerating,
