@@ -40,7 +40,7 @@ var Player = function (id) {
 	};
 
 	var update = function () {
-		//console.log(bullets);
+		//console.log(sprite.x);
 		// The player's acceleration/deceleration
 		if (this.isAccelerating) {
 			game.physics.arcade.accelerationFromRotation(sprite.rotation, maxVelocity, sprite.body.acceleration);
