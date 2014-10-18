@@ -21,6 +21,7 @@ var GameEngine = function () {
 
 	var game;
 	var sprite;
+	var enemies;
 
 	var init = function () {
 		game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-screen', {
@@ -39,15 +40,20 @@ var GameEngine = function () {
 
 	var create = function () {
 
-		//  To make the sprite move we need to enable Arcade Physics
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
+		// Set up the player
 		sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'phaser');
 		sprite.anchor.set(0.5);
 
-		//  And enable the Sprite to have a physics body:
 		game.physics.arcade.enable(sprite);
 
+		// Set up enemies
+		enemies = game.add.group();
+		enemies.enableBody = true;
+		var one = enemies.create(0, 400, 'one');
+		one.scale.setTo(2, 2);
+		one.body.immovable = true;
 	}
 
 	var update = function () {
@@ -61,6 +67,8 @@ var GameEngine = function () {
 			//  Otherwise turn off velocity because we're close enough to the pointer
 			sprite.body.velocity.set(0);
 		}
+
+		game.physics.arcade.collide(sprite, enemies);
 
 	}
 
