@@ -51,8 +51,8 @@ var GameEngine = function () {
 
 	}
 
-	var spawnMyPlayer = function (id) {
-          myPlayer = new Player(id, game);
+	var spawnMyPlayer = function (name) {
+          myPlayer = new Player(name, game);
           playersGroup = game.add.group();
           var mpSprite = myPlayer.create();
           playersGroup.add(mpSprite);
@@ -61,10 +61,10 @@ var GameEngine = function () {
           ready = true
 	}
 
-	var spawnRemotePlayer = function (id) {
+	var spawnRemotePlayer = function (name) {
           var x = Math.random() * 1600;
           var y = Math.random() * 1200;
-          var myPlayerz = new Player(id, game);
+          var myPlayerz = new Player(name, game);
           var myPlayerSprite = myPlayerz.create();
           myPlayerSprite.reset(x, y);
           playersGroup.add(myPlayerSprite);

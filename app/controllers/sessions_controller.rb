@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 
   def create
     @player = Player.where(name: player_name_param).first_or_create
-    cookies[:player_id] = @player.id
+    cookies[:player_name] = @player.name
     redirect_to root_path
   end
 

@@ -6,7 +6,7 @@ module Sockets
     end
 
     def player_connected
-      player = Player.find(message[:player_id])
+      player = Player.find_by(name: message[:player_name])
       puts "Player connected #{player.name}"
       games = JSON.parse(redis[:games])
       game = find_game(games)
@@ -16,7 +16,7 @@ module Sockets
 
       WebsocketRails[:da_game].trigger(:player_connected, { 
         players: game.player_names,
-        new_player_id: player.id
+        new_player_name: player.name
       })
 
       WebsocketRails[:da_game].trigger(:new_message, {
