@@ -8,6 +8,8 @@ var GameEngine = function () {
 	var playerGroup;
 	var enemies;
 
+        var ready = false;
+
 	var init = function () {
 		game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-screen', {
 			preload: preload,
@@ -33,14 +35,6 @@ var GameEngine = function () {
 		// The size of the world
 		game.world.setBounds(0, 0, 1600, 1200);
 
-		// Set up the players
-		myPlayer = new Player(game);
-		playersGroup = game.add.group();
-		var mpSprite = myPlayer.create();
-		playersGroup.add(mpSprite);
-		players.push(myPlayer);
-		game.camera.follow(mpSprite);
-
 		// Set up enemies
 		enemies = game.add.group();
 		enemies.enableBody = true;
@@ -48,7 +42,7 @@ var GameEngine = function () {
 		// Add a few testable enemies
 		for (var i = 0; i < 25; i++) {
 			addEnemy();
-			addPlayer();
+			//addPlayer();
 		}
 
 		// A testing key to add an enemy to the world
@@ -57,14 +51,24 @@ var GameEngine = function () {
 
 	}
 
-	var addPlayer = function () {
-		var x = Math.random() * 1600;
-		var y = Math.random() * 1200;
-		var myPlayerz = new Player(game);
-		var myPlayerSprite = myPlayerz.create();
-		myPlayerSprite.reset(x, y);
-		playersGroup.add(myPlayerSprite);
-		players.push(myPlayerz);
+	var spawnMyPlayer = function (id) {
+          myPlayer = new Player(id, game);
+          playersGroup = game.add.group();
+          var mpSprite = myPlayer.create();
+          playersGroup.add(mpSprite);
+          players.push(myPlayer);
+          game.camera.follow(mpSprite);
+          ready = true
+	}
+
+	var spawnRemotePlayer = function (id) {
+          var x = Math.random() * 1600;
+          var y = Math.random() * 1200;
+          var myPlayerz = new Player(id, game);
+          var myPlayerSprite = myPlayerz.create();
+          myPlayerSprite.reset(x, y);
+          playersGroup.add(myPlayerSprite);
+          players.push(myPlayerz);
 	}
 
 	var addEnemy = function () {
@@ -75,6 +79,7 @@ var GameEngine = function () {
 	}
 
 	var update = function () {
+          if(ready) {
 		//console.log(players[0]);
 		myPlayer.isAccelerating = cursors.up.isDown;
 		myPlayer.isDecelerating = cursors.down.isDown;
@@ -87,7 +92,7 @@ var GameEngine = function () {
 
 		game.physics.arcade.collide(playersGroup, enemies);
 		game.physics.arcade.collide(playersGroup, playersGroup);
-
+          }
 	}
 
 	var render = function () {
@@ -96,7 +101,9 @@ var GameEngine = function () {
 
 	return {
 		init: init,
-		render: render
+		render: render,
+                spawnRemotePlayer: spawnRemotePlayer,
+                spawnMyPlayer: spawnMyPlayer
 	};
 
 };

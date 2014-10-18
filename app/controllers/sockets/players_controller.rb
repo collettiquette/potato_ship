@@ -1,5 +1,5 @@
 module Sockets
-  class PlayersController < WebsocketRails::BaseController
+  class PlayersController < Sockets::ApplicationController
     def initialize_session
       puts 'Initializing session'
     end
@@ -9,10 +9,17 @@ module Sockets
       puts "Player connected #{player.name}"
       game = find_game
       game[client_id] = Stat.new(player: player, game_id: game.id)
-      p client_id
       games[game.id] = game
       store_games
-      WebsocketRails[:da_game].trigger(:player_connected, { players: game.player_names } )
+
+      WebsocketRails[:da_game].trigger(:player_connected, {
+        players: game.player_names,
+        new_player_id: player.id
+      })
+
+      WebsocketRails[:da_game].trigger(:new_message, {
+        message: "#{player.name} joined game."
+      })
     end
 
     def client_disconnected
@@ -23,27 +30,10 @@ module Sockets
         end
       end
       store_games
-      puts "#{client} removed"
-      WebsocketRails[:da_game].trigger(:player_disconnected, {})
+      puts "#{client_id} removed"
     end
 
     private
-
-    def redis
-      WebsocketRails::Synchronization.singleton.redis
-    end
-
-    def games
-      controller_store[:games] ||= JSON.parse(redis[:games] ||= {}.to_json)
-        .each_with_object({}) do |(game_id, game_hash), result|
-          result[game_id.to_i] = Game.parse(game_hash)
-        end
-    end
-
-    def store_games
-      redis[:games] = games.to_json
-      controller_store.delete(:games)
-    end
 
     def find_game
       games.each do |game_id, game|

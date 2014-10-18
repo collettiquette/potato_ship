@@ -10,33 +10,37 @@ function getCookie(cname) {
 }
 
 var ConnectionHandler = function () {
-	console.log('New connection!');
+  console.log('New connection!');
+  var dispatcher,
+      channel,
+      game_instance,
+      myId;
 
-  var dispatcher;
-  var channel;
+  var init = function (game_instance) {
+    dispatcher = new WebSocketRails(window.location.hostname + ':3218/websocket');
+    channel = dispatcher.subscribe('da_game');
+    game_instance = game_instance;
 
+    channel.bind('player_connected', function(data) {
+      if(myId == data.new_player_id){
+        game_instance.spawnMyPlayer(myId);
+      } else {
+        game_instance.spawnRemotePlayer(data.new_player_id);
+      }
+    });
 
-	var init = function () {
-		dispatcher = new WebSocketRails(window.location.hostname + ':3218/websocket');
-		channel = dispatcher.subscribe('da_game');
+    dispatcher.on_open = function(data) {
+      console.log('Connection has been established: ', data);
+      console.log(getCookie('player_id'));
+      myId = getCookie('player_id');
+      dispatcher.trigger("player_connected", { player_id: myId });
+    }
 
-	  channel.bind('player_connected', function(data) {
-	    $.each(data.players, function(index, player) {
-	      console.log(player);
-	    });
-	  });
+    MessageHandler(dispatcher, channel).init();
+  };
 
-	  dispatcher.on_open = function(data) {
-	    console.log('Connection has been established: ', data);
-	    console.log(getCookie('player_id'));
-	    dispatcher.trigger("player_connected", { player_id: getCookie('player_id') });
-	  }
-
-	};
-
-
-	return {
-		init: init
-	}
+  return {
+    init: init
+  }
 
 }
