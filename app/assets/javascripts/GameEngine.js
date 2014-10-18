@@ -21,7 +21,7 @@ var GameEngine = function () {
 
 	var preload = function () {
 
-		game.load.image('player-ship', 'assets/images/player-ship.png');
+		game.load.image('player-ship', '/images/player-ship.png');
 
 	}
 
