@@ -19,8 +19,7 @@ var Player = function (game) {
 	};
 
 	var update = function (cursors) {
-		console.log('Player.update');
-		console.log(sprite);
+		//console.log('Player.update');
 		// Accelerating the player
 		if (cursors.up.isDown) {
 			game.physics.arcade.accelerationFromRotation(sprite.rotation, 200, sprite.body.acceleration);
