@@ -1,5 +1,5 @@
 module Sockets
-  class RedisConnectionController < WebsocketRails::BaseController
+  class ApplicationController < WebsocketRails::BaseController
 
     private
 
