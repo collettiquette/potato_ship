@@ -32,6 +32,7 @@ gem 'spring',        group: :development
 # Use unicorn as the app server
 gem 'unicorn', group: :production
 gem 'rails_12factor', group: :production
+# gem 'thin'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -41,4 +42,4 @@ gem 'rails_12factor', group: :production
 
 gem 'websocket-rails'
 gem 'annotate'
-gem 'hiredis'
+# gem 'hiredis'
