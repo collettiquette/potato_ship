@@ -127,7 +127,8 @@ var GameEngine = function () {
               };
               ConnectionHandler.dispatcher.trigger('update_ship', {
                 change: change,
-                position: myPlayer.position()
+                position: myPlayer.position(),
+                player_name: myPlayer.id
               });
             }
           }

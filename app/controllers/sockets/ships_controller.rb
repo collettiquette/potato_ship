@@ -1,7 +1,7 @@
 module Sockets
   class ShipsController < Sockets::ApplicationController
     def update_ship
-      puts message[:position]
+      WebsocketRails[:da_game].trigger(:update_ship, message)
     end
   end
 end

@@ -46,6 +46,11 @@ var ConnectionHandler = {
       game_instance.loadObstacles(data);
     });
 
+    this.channel.bind('update_ship', function (data) {
+      console.log('Ship updated!');
+      console.log(data);
+    })
+
     this.dispatcher.on_open = function(data) {
       console.log('Connection has been established: ', data);
       console.log(getCookie('player_name'));
