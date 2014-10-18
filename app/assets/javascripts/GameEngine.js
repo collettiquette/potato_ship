@@ -27,10 +27,15 @@ var GameEngine = function () {
 		// Set up physics
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
+		// The size of the world
+		game.world.setBounds(0, 0, 1600, 1200);
+
 		// Set up the player
 		sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'phaser');
+		game.camera.follow(sprite);
 		game.physics.arcade.enable(sprite);
 		sprite.anchor.set(0.5);
+		sprite.body.collideWorldBounds = true;
 		sprite.body.drag.set(100);
 		sprite.body.maxVelocity.set(200);
 
@@ -50,8 +55,8 @@ var GameEngine = function () {
 	}
 
 	var addEnemy = function () {
-		var x = Math.random() * 800;
-		var y = Math.random() * 600;
+		var x = Math.random() * 1600;
+		var y = Math.random() * 1200;
 		var one = enemies.create(x, y, 'one');
 		one.body.immovable = true;
 	}
@@ -81,7 +86,7 @@ var GameEngine = function () {
 	}
 
 	var render = function () {
-
+		//game.debug.cameraInfo(game.camera, 32, 32);
 	}
 
 	return {
