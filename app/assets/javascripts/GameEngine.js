@@ -3,6 +3,7 @@ var GameEngine = function () {
 	var game;
 	var cursors;
 
+	var myPlayer;
 	var players = [];
 	var playerGroup;
 	var enemies;
@@ -33,10 +34,12 @@ var GameEngine = function () {
 		game.world.setBounds(0, 0, 1600, 1200);
 
 		// Set up the players
-		var myPlayer = new Player(game);
+		myPlayer = new Player(game);
 		playersGroup = game.add.group();
-		playersGroup.add(myPlayer.create());
+		var mpSprite = myPlayer.create();
+		playersGroup.add(mpSprite);
 		players.push(myPlayer);
+		game.camera.follow(mpSprite);
 
 		// Set up enemies
 		enemies = game.add.group();
@@ -45,12 +48,23 @@ var GameEngine = function () {
 		// Add a few testable enemies
 		for (var i = 0; i < 25; i++) {
 			addEnemy();
+			addPlayer();
 		}
 
 		// A testing key to add an enemy to the world
 		var key_addEnemy = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
 		key_addEnemy.onDown.add(addEnemy, this);
 
+	}
+
+	var addPlayer = function () {
+		var x = Math.random() * 1600;
+		var y = Math.random() * 1200;
+		var myPlayerz = new Player(game);
+		var myPlayerSprite = myPlayerz.create();
+		myPlayerSprite.reset(x, y);
+		playersGroup.add(myPlayerSprite);
+		players.push(myPlayerz);
 	}
 
 	var addEnemy = function () {
@@ -61,11 +75,18 @@ var GameEngine = function () {
 	}
 
 	var update = function () {
+		//console.log(players[0]);
+		myPlayer.isAccelerating = cursors.up.isDown;
+		myPlayer.isDecelerating = cursors.down.isDown;
+		myPlayer.isTurningLeft = cursors.left.isDown;
+		myPlayer.isTurningRight = cursors.right.isDown;
+
 		for (var i = 0; i < players.length; i++) {
-			players[i].update(cursors);
+			players[i].update();
 		}
 
 		game.physics.arcade.collide(playersGroup, enemies);
+		game.physics.arcade.collide(playersGroup, playersGroup);
 
 	}
 
