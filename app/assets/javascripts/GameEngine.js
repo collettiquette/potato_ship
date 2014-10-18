@@ -106,6 +106,19 @@ var GameEngine = function () {
 		player.kill();
 	};
 
+	var updatePlayers = function (updatedData) {
+		$.each(players, function (index, player) {
+			if (player.id == updatedData.player_name) {
+				player.isDecelerating = updatedData.change.down;
+				player.isAccelerating = updatedData.change.up;
+				player.isTurningLeft = updatedData.change.left;
+				player.isTurningRight = updatedData.change.right;
+				//console.log(player);
+				return;
+			}
+		});
+	};
+
 	var update = function () {
 
 		if (!ready)
@@ -155,9 +168,10 @@ var GameEngine = function () {
 		init: init,
 		render: render,
 		loadObstacles: loadObstacles,
-                spawnRemotePlayer: spawnRemotePlayer,
-                spawnMyPlayer: spawnMyPlayer,
-                deletePlayer: deletePlayer
+		updatePlayers: updatePlayers,
+		spawnRemotePlayer: spawnRemotePlayer,
+		spawnMyPlayer: spawnMyPlayer,
+		deletePlayer: deletePlayer
 	};
 
 };

@@ -37,23 +37,23 @@ var ConnectionHandler = {
     });
 
     this.channel.bind('player_disconnected', function(data) {
-      console.log("Player delete: " + data.player_name);
+      //console.log("Player delete: " + data.player_name);
       game_instance.deletePlayer(data.player_name);
     });
 
     this.channel.bind('include_obstacles', function (data) {
-      console.log('include obstacles');
+      //console.log('include obstacles');
       game_instance.loadObstacles(data);
     });
 
     this.channel.bind('update_ship', function (data) {
-      console.log('Ship updated!');
-      console.log(data);
+      //console.log('Ship updated!');
+      game_instance.updatePlayers(data);
     })
 
     this.dispatcher.on_open = function(data) {
-      console.log('Connection has been established: ', data);
-      console.log(getCookie('player_name'));
+      //console.log('Connection has been established: ', data);
+      //console.log(getCookie('player_name'));
       myName = getCookie('player_name');
       this.trigger("player_connected", { player_name: myName });
     }
