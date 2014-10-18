@@ -17,16 +17,25 @@
 //= require_tree .
 //= require websocket_rails/main
 
+$(document).ready( function() {
 
-dispatcher = new WebSocketRails(window.location.hostname + ':3218/websocket');
-channel = dispatcher.subscribe('da_game');
+  var game_instance = GameEngine(),
+      $game_container = $("#game-container");
+  
+  if($game_container.length > 0) {
+    game_instance.init();
+  }
 
-channel.bind('player_connected', function(data) {
-  console.debug('channel event received: ' + data.message);
+  dispatcher = new WebSocketRails(window.location.hostname + ':3218/websocket');
+  channel = dispatcher.subscribe('da_game');
+
+  channel.bind('player_connected', function(data) {
+    console.debug('channel event received: ' + data.message);
+  });
+
+  dispatcher.on_open = function(data) {
+    console.log('Connection has been established: ', data);
+    dispatcher.trigger("player_connected", { connection_id: data.connection_id });
+  }
+
 });
-
-dispatcher.on_open = function(data) {
-  console.log('Connection has been established: ', data);
-  dispatcher.trigger("player_connected", { connection_id: data.connection_id });
-}
-

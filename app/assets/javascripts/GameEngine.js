@@ -90,6 +90,3 @@ var GameEngine = function () {
 	};
 
 };
-
-var game_instance = GameEngine();
-game_instance.init();
