@@ -17,16 +17,16 @@
 //= require_tree .
 //= require websocket_rails/main
 
+var game_instance;
+
 $(document).ready( function() {
 
-  var game_instance = GameEngine(),
-      connection_handler = ConnectionHandler(),
-      $game_container = $("#game-container");
+  game_instance = GameEngine();
 
+  $game_container = $("#game-container");
 
   if($game_container.length > 0) {
     game_instance.init();
-    connection_handler.init(game_instance);
   }
 
 });

@@ -10,8 +10,12 @@ var GameEngine = function () {
 	var obstacles;
 
 	var ready = false;
+	//var test;
 
 	var init = function () {
+		// Set up connection handler
+		ConnectionHandler.init();
+
 		game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-screen', {
 			preload: preload,
 			create: create,
