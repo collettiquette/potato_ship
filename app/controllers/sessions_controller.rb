@@ -5,11 +5,11 @@ class SessionsController < ApplicationController
 
   def create
     @player = Player.where(name: player_name_param).first_or_create
-    session[:player_id] = @player.id
+    cookies[:player_id] = @player.id
     redirect_to root_path
   end
 
-  private 
+  private
     def session_params
       params.require(:sessions).permit(:player_name)
     end
