@@ -20,8 +20,9 @@ var ConnectionHandler = function () {
     dispatcher = new WebSocketRails(window.location.hostname + ':3218/websocket');
     channel = dispatcher.subscribe('da_game');
     game_instance = game_instance;
-    
+
     channel.bind('player_connected', function(data) {
+      dispatcher.trigger('include_obstacles', { game_id: data.game_id });
       if(myName == data.new_player_name){
         game_instance.spawnMyPlayer(myName);
 
@@ -34,6 +35,10 @@ var ConnectionHandler = function () {
       } else {
         game_instance.spawnRemotePlayer(data.new_player_name);
       }
+    });
+
+    channel.bind('include_obstacles', function (data) {
+      console.log(data);
     });
 
     dispatcher.on_open = function(data) {

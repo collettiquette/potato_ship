@@ -13,7 +13,8 @@ module Sockets
       store_games
       WebsocketRails[:da_game].trigger(:player_connected, {
         players: game.player_names,
-        new_player_name: player.name
+        new_player_name: player.name,
+        game_id: game.id
       })
 
       WebsocketRails[:da_game].trigger(:new_message, {
