@@ -16,7 +16,7 @@ var ConnectionHandler = {
   myName: null,
 
   init: function () {
-    this.dispatcher = new WebSocketRails(window.location.hostname + '/websocket');
+    this.dispatcher = new WebSocketRails(window.location.host + '/websocket');
     this.channel = this.dispatcher.subscribe('da_game');
 
     this.channel.bind('player_connected', function(data) {
