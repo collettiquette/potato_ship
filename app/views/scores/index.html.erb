@@ -1,0 +1,17 @@
+<h1>Scores</h1>
+<table>
+  <tr>
+    <th>Player</th>
+    <th>Score</th>
+    <th>Kills</th>
+    <th>Deaths</th>
+  </tr>
+  <%@scores.each do |score|%>
+    <tr>
+      <td><%=Player.find(score.player_id).name %></td>
+      <td><%=score.score %></td>
+      <td><%=score.kills %></td>
+      <td><%=score.deaths %></td>
+    </tr> 
+  <%end%>
+</table>
