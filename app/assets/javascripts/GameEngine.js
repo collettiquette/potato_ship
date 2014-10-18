@@ -36,31 +36,21 @@ var GameEngine = function () {
 		// The size of the world
 		game.world.setBounds(0, 0, 1600, 1200);
 
-		loadObstacles();
-
 		// A testing key to add an enemy to the world
 		var key_shoot = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		key_shoot.onDown.add(fireZeBullets, this);
 
 	}
 
-	var loadObstacles = function () {
+	var loadObstacles = function (obstacleData) {
 		// Set up obstacles
 		obstacles = game.add.group();
 		obstacles.enableBody = true;
 
-		// Add a few immovable obstacles
-		for (var i = 0; i < 25; i++) {
-			addObstacle();
-		}
-	}
-
-	var addObstacle = function () {
-		var x = Math.random() * 1600;
-		var y = Math.random() * 1200;
-		var obstacle = obstacles.create(x, y, 'one');
-
-		obstacle.body.immovable = true;
+		$.each(obstacleData.obstacles, function (index, which) {
+			var obstacle = obstacles.create(which.x, which.y, 'one');
+			obstacle.body.immovable = true;
+		});
 	}
 
 	var fireZeBullets = function () {
@@ -104,7 +94,6 @@ var GameEngine = function () {
 	var update = function () {
 
           if (ready) {
-            //console.log(players[0]);
             myPlayer.isAccelerating = cursors.up.isDown;
             myPlayer.isDecelerating = cursors.down.isDown;
             myPlayer.isTurningLeft = cursors.left.isDown;
@@ -127,6 +116,7 @@ var GameEngine = function () {
 	return {
 		init: init,
 		render: render,
+		loadObstacles: loadObstacles,
                 spawnRemotePlayer: spawnRemotePlayer,
                 spawnMyPlayer: spawnMyPlayer,
                 deletePlayer: deletePlayer
