@@ -1,5 +1,5 @@
 module Sockets
-  class PlayersController < WebsocketRails::BaseController
+  class PlayersController < RedisConnectionController
     def initialize_session
       puts 'Initializing session'
       redis[:games] = [].to_json
@@ -21,10 +21,6 @@ module Sockets
     end
 
     private
-
-    def redis
-      WebsocketRails::Synchronization.singleton.redis
-    end
 
     def find_game(games)
       game_id = 0
