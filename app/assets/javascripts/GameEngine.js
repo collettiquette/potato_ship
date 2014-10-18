@@ -21,7 +21,7 @@ var GameEngine = function () {
 
 	var preload = function () {
 
-		game.load.image('phaser', 'assets/images/player-ship.png');
+		game.load.image('player-ship', 'assets/images/player-ship.png');
 
 	}
 
@@ -46,9 +46,13 @@ var GameEngine = function () {
 		}
 
 		// A testing key to add an enemy to the world
-		var key_addEnemy = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
-		key_addEnemy.onDown.add(addEnemy, this);
+		var key_shoot = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		key_shoot.onDown.add(fireZeBullets, this);
 
+	}
+
+	var fireZeBullets = function () {
+		myPlayer.shoot();
 	}
 
 	var spawnMyPlayer = function (id) {
