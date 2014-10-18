@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   private
     def signed_in?
-      unless cookies[:player_id]
+      unless cookies[:player_name]
         redirect_to new_session_path
       end
     end

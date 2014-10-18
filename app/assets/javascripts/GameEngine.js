@@ -8,7 +8,7 @@ var GameEngine = function () {
 	var playerGroup;
 	var enemies;
 
-        var ready = false;
+	var ready = false;
 
 	var init = function () {
 		game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-screen', {
@@ -55,8 +55,8 @@ var GameEngine = function () {
 		myPlayer.shoot();
 	}
 
-	var spawnMyPlayer = function (id) {
-          myPlayer = new Player(id, game);
+	var spawnMyPlayer = function (name) {
+          myPlayer = new Player(name, game);
           playersGroup = game.add.group();
           var mpSprite = myPlayer.create();
           playersGroup.add(mpSprite);
@@ -65,10 +65,10 @@ var GameEngine = function () {
           ready = true
 	}
 
-	var spawnRemotePlayer = function (id) {
+	var spawnRemotePlayer = function (name) {
           var x = Math.random() * 1600;
           var y = Math.random() * 1200;
-          var myPlayerz = new Player(id, game);
+          var myPlayerz = new Player(name, game);
           var myPlayerSprite = myPlayerz.create();
           myPlayerSprite.reset(x, y);
           playersGroup.add(myPlayerSprite);
@@ -83,20 +83,20 @@ var GameEngine = function () {
 	}
 
 	var update = function () {
-          if(ready) {
-		//console.log(players[0]);
-		myPlayer.isAccelerating = cursors.up.isDown;
-		myPlayer.isDecelerating = cursors.down.isDown;
-		myPlayer.isTurningLeft = cursors.left.isDown;
-		myPlayer.isTurningRight = cursors.right.isDown;
+        if (ready) {
+			//console.log(players[0]);
+			myPlayer.isAccelerating = cursors.up.isDown;
+			myPlayer.isDecelerating = cursors.down.isDown;
+			myPlayer.isTurningLeft = cursors.left.isDown;
+			myPlayer.isTurningRight = cursors.right.isDown;
 
-		for (var i = 0; i < players.length; i++) {
-			players[i].update();
-		}
+			for (var i = 0; i < players.length; i++) {
+				players[i].update();
+			}
 
-		game.physics.arcade.collide(playersGroup, enemies);
-		game.physics.arcade.collide(playersGroup, playersGroup);
-          }
+			game.physics.arcade.collide(playersGroup, enemies);
+			game.physics.arcade.collide(playersGroup, playersGroup);
+        }
 	}
 
 	var render = function () {

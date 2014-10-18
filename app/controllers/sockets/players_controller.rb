@@ -5,7 +5,7 @@ module Sockets
     end
 
     def player_connected
-      player = Player.find(message[:player_id])
+      player = Player.find_by(name: message[:player_name])
       puts "Player connected #{player.name}"
       game = find_game
       game[client_id] = Stat.new(player: player, game_id: game.id)
@@ -13,7 +13,7 @@ module Sockets
       store_games
       WebsocketRails[:da_game].trigger(:player_connected, {
         players: game.player_names,
-        new_player_id: player.id
+        new_player_name: player.name
       })
 
       WebsocketRails[:da_game].trigger(:new_message, {
