@@ -32,16 +32,11 @@ WebsocketRails.setup do |config|
   # Will not be used unless standalone or synchronization mode
   # is enabled.
   if Rails.env.production?
-    puts ENV["REDISGREEN_URL"]
     uri = URI.parse(ENV["REDISGREEN_URL"])
     config.redis_options = { host: uri.host, port: uri.port, url: ENV["REDISGREEN_URL"] }
   else
     config.redis_options = { url: "redis://localhost:6379" }
   end
-
-  puts "hello"
-  puts config.redis_options
-  puts "hello2"
   # config.redis_options = {:host => 'localhost', :port => '6378'}
 
   # By default, all subscribers in to a channel will be removed
