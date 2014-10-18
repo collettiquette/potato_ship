@@ -20,6 +20,8 @@ WebsocketRails::EventMap.describe do
                                 with_method: :include_obstacles
   subscribe :new_message, to: Sockets::MessagesController,
                           with_method: :new
+  subscribe :update_ship, to: Sockets::ShipsController,
+                          with_method: :update_ship
   subscribe :update_score, to: Sockets::StatsController,
                           with_method: :update_score
   subscribe :update_kills, to: Sockets::StatsController,
