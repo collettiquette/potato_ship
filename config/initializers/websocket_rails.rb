@@ -31,7 +31,8 @@ WebsocketRails.setup do |config|
   # is enabled.
   if Rails.env.production?
     puts ENV["REDISGREEN_URL"]
-    config.redis_options = { url: ENV["REDISGREEN_URL"], driver: :hiredis }
+    uri = URI.parse(ENV["REDISGREEN_URL"])
+    config.redis_options = { host: uri.host, port: uri.port, url: ENV["REDISGREEN_URL"], driver: :hiredis }
   else
     config.redis_options = { url: "redis://localhost:6379" }
   end
