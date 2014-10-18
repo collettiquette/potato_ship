@@ -6,7 +6,11 @@ WebsocketRails.setup do |config|
   # config.log_level = :debug
 
   # Uncomment to change the default log file path.
-  # config.log_path = "#{Rails.root}/log/websocket_rails.log"
+  if Rails.env.production?
+    config.log_path = "#{Rails.root}/log/production.log"
+  else
+    config.log_path = "#{Rails.root}/log/websocket_rails.log"
+  end
 
   # Set to true if you wish to log the internal websocket_rails events
   # such as the keepalive `websocket_rails.ping` event.
@@ -16,7 +20,9 @@ WebsocketRails.setup do |config|
   # Start the standalone server with rake websocket_rails:start_server
   # * Requires Redis
   config.standalone = true
-  config.standalone_port = 3218
+  # config.standalone_port = 3218
+  p ENV["PORT"]
+  config.standalone_port = ENV["PORT"]
 
   # Change to true to enable channel synchronization between
   # multiple server instances.
