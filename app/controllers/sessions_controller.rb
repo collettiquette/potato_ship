@@ -1,12 +1,19 @@
 class SessionsController < ApplicationController
   skip_before_filter :signed_in?
 
-  def new; end
+  def new
+    @player = Player.new
+  end
 
   def create
-    @player = Player.where(name: player_name_param).first_or_create
-    cookies[:player_name] = @player.name
-    redirect_to root_path
+    @player = Player.where(name: player_name_param).first_or_initialize
+
+    if @player.save
+      cookies[:player_name] = @player.name
+      redirect_to root_path
+    else
+      render :new
+    end
   end
 
   private

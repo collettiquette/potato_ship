@@ -9,6 +9,7 @@
 class Player < ActiveRecord::Base
   has_many :stats
   validates_uniqueness_of :name
+  validates_format_of :name, with: /\A\w+\z/
 
   def historical_stats
     stats.select("sum(score)  AS score,
