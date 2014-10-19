@@ -139,9 +139,10 @@ var GameEngine = function () {
 	  }
   }
 
-	var spawnMyPlayer = function (name) {
+	var spawnMyPlayer = function (name, position) {
           myPlayer = new Player(name);
           var mpSprite = myPlayer.create(true);
+          mpSprite.reset(position.x, position.y)
           playersGroup.add(mpSprite);
           players.push(myPlayer);
           game.camera.follow(mpSprite);
@@ -149,9 +150,9 @@ var GameEngine = function () {
           $('#loading').fadeOut(200);
 	}
 
-	var spawnRemotePlayer = function (name, ship_type) {
-          var x = -50
-          var y = -50
+	var spawnRemotePlayer = function (name, ship_type, position) {
+          var x = position.x
+          var y = position.y
           var myPlayerz = new Player(name);
           var myPlayerSprite = myPlayerz.create(false, ship_type);
           myPlayerSprite.reset(x, y, 30);
@@ -214,6 +215,7 @@ var GameEngine = function () {
                 player.isAccelerating = updatedData.change.up;
                 player.isTurningLeft = updatedData.change.left;
                 player.isTurningRight = updatedData.change.right;
+                player.ship.rotation = updatedData.position.angle
 
                 if (typeof(updatedData.health) != 'undefined'){
                     player.ship.health = updatedData.health;
@@ -226,8 +228,7 @@ var GameEngine = function () {
                       var tween = game.add.tween(player.ship);
                       tween.to({
                         x: updatedData.position.x,
-                        y: updatedData.position.y,
-                        rotation: updatedData.position.angle
+                        y: updatedData.position.y
                       }, 1000);
                       tween.start();
                     }
@@ -237,8 +238,7 @@ var GameEngine = function () {
                 var tween = game.add.tween(player.ship);
                 tween.to({
                   x: updatedData.position.x,
-                  y: updatedData.position.y,
-                  rotation: updatedData.position.angle
+                  y: updatedData.position.y
                 }, 1000);
                 tween.start();
                 return;

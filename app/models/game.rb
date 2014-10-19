@@ -3,7 +3,9 @@ class Game
 
   def self.parse(hash)
     stats = hash['stats'].each_with_object({}) do |(k,v), result|
-        result[k] = Stat.where(v).first_or_create
+        # result[k] = Stat.where(v).first_or_create
+        result[k] = Stat.new(v)
+        # result[k] = Stat.where(player_id: v[:player_id], game_id: v[:game_id]).first_or_create
       end
     obstacles = hash['obstacles'].map do |obstacle|
       Obstacle.new(obstacle.symbolize_keys)
