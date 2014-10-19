@@ -110,7 +110,7 @@ var GameEngine = function () {
           var y = -50
           var myPlayerz = new Player(name);
           var myPlayerSprite = myPlayerz.create();
-          myPlayerSprite.reset(x, y);
+          myPlayerSprite.reset(x, y, 30);
           playersGroup.add(myPlayerSprite);
           players.push(myPlayerz);
 	}
@@ -130,10 +130,24 @@ var GameEngine = function () {
 		bullet.kill();
 	};
 
-	var bullet_hits_player = function (bullet, player) {
+	var bullet_hits_player = function (bullet, ship) {
 		bullet.kill();
-		//player.kill();
-    ConnectionHandler.dispatcher.trigger('update_health', player);
+		ship.damage(3);
+
+    var change = {
+      up: false,
+      down: false,
+      left: false,
+      right: false
+    };
+
+	  ConnectionHandler.dispatcher.trigger('update_ship', {
+	    change: change,
+	    position: ship.player.position(),
+	    player_name: ship.player.id,
+	    game_id: ConnectionHandler.gameID,
+			health: ship.health
+	  });
 	};
 
 	var updatePlayers = function (updatedData) {
@@ -147,18 +161,12 @@ var GameEngine = function () {
               player.ship.x = updatedData.position.x;
               player.ship.y = updatedData.position.y;
               player.ship.rotation = updatedData.position.angle;
+							console.log(updatedData.health);
+							player.ship.health = updatedData.health;
               return;
             }
           });
     }
-	};
-
-	var updateHealth = function (updatedPlayer) {
-	  $.each(players, function (index, player) {
-		  if (player.id == updatedPlayer.player_name) {
-				player.health -= 2;
-			}
-		});
 	};
 
 	var update = function () {
@@ -200,7 +208,8 @@ var GameEngine = function () {
               change: change,
               position: myPlayer.position(),
               player_name: myPlayer.id,
-              game_id: ConnectionHandler.gameID
+              game_id: ConnectionHandler.gameID,
+							health: myPlayer.ship.health
             });
           }
 	}
