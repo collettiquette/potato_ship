@@ -17,7 +17,7 @@
 		        <%= label_tag do %>
 		        	<img src="/images/site/player-ship-<%= ship_type %>.png" alt="<%= ship_type %>" />
 		        	<div class="ship-name"><%= ship_type.humanize %></div>
-		        	<%= radio_button_tag 'ship_type', ship_type %>
+		        	<%= radio_button_tag 'sessions[ship_type]', ship_type %>
 		        <% end %>
 		    </div>
 	      <% end %>
