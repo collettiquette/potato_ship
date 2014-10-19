@@ -97,7 +97,31 @@ var GameEngine = function () {
 
 	var fireZeBullets = function () {
 		myPlayer.shoot();
+    var change = {
+      up: false,
+      down: false,
+      left: false,
+      right: false
+    };
+
+    ConnectionHandler.dispatcher.trigger('fire_bullet',
+      { position: myPlayer.position(), player_name: myPlayer.id,
+      	game_id: ConnectionHandler.gameID,
+      	change: change
+      });
 	}
+
+  var fireRemoteBullet = function (data) {
+  	updatePlayers(data);
+  	if (data.player_name != myPlayer.id) {
+	  	$.each(players, function (index, player) {
+	  		if (player.id == data.player_name) {
+	  			player.shoot();
+	  			return;
+	  		}
+	  	});
+	  }
+  }
 
 	var spawnMyPlayer = function (name) {
           myPlayer = new Player(name);
@@ -257,6 +281,7 @@ var GameEngine = function () {
 		render: render,
 		loadObstacles: loadObstacles,
 		updatePlayers: updatePlayers,
+		fireRemoteBullet: fireRemoteBullet,
 		spawnRemotePlayer: spawnRemotePlayer,
 		spawnMyPlayer: spawnMyPlayer,
 		deletePlayer: deletePlayer
