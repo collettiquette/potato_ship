@@ -10,7 +10,8 @@ var GameEngine = function () {
 	var obstacles;
 
 	var ready = false;
-	//var test;
+	var world_width = 1600;
+	var world_height = 1200;
 
 	var init = function () {
 		game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-screen', {
@@ -23,12 +24,27 @@ var GameEngine = function () {
 
 	var preload = function () {
 
-		game.load.image('player-ship', '/images/player-ship.png');
-		//game.load.image('space-background', '/images/spaaaaaace.png');
+		// Ships
+		game.load.image('player-ship-one', '/images/player-ship-one.png');
+		game.load.image('player-ship-two', '/images/player-ship-two.png');
+		game.load.image('player-ship-three', '/images/player-ship-three.png');
+
+		// Lasers
+		game.load.image('laser-green-thin', '/images/laser-green-thin.png');
+
+		// Obstacles
+		game.load.image('obstacle-one', '/images/obstacle-one.png');
+		game.load.image('obstacle-two', '/images/obstacle-two.png');
+
+		// Backgrounds
+		game.load.image('background-space-one', '/images/background-space-one.png');
 
 	}
 
 	var create = function () {
+		game.stage.backgroundColor = '#3a2e3f';
+		game.add.tileSprite(0, 0, world_width, world_height, 'background-space-one');
+
 		// Set up input
 		cursors = game.input.keyboard.createCursorKeys();
 
@@ -36,9 +52,7 @@ var GameEngine = function () {
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		// The size of the world
-		game.world.setBounds(0, 0, 1600, 1200);
-
-		//game.add.tileSprite(0, 0, 1000, 600, 'space-background');
+		game.world.setBounds(0, 0, world_width, world_height);
 
 		playersGroup = game.add.group();
 		console.log(playersGroup);
@@ -46,7 +60,6 @@ var GameEngine = function () {
 		// A testing key to add an enemy to the world
 		var key_shoot = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		key_shoot.onDown.add(fireZeBullets, this);
-
 
 		// Set up connection handler
 		ConnectionHandler.init();
@@ -58,7 +71,17 @@ var GameEngine = function () {
 		obstacles.enableBody = true;
 
 		$.each(obstacleData.obstacles, function (index, which) {
-			var obstacle = obstacles.create(which.x, which.y, 'one');
+			var obstacle = obstacles.create(which.x, which.y, 'obstacle-' + which.frame);
+			obstacle.body.immovable = true;
+			switch (which.frame) {
+				case 'one':
+					obstacle.body.setSize(32, 32, 8, 8);
+				break;
+				case 'two':
+					obstacle.body.setSize(24, 24, 8, 8);
+				break;
+			}
+			obstacle = obstacles.create(which.x+100, which.y, 'obstacle-two');
 			obstacle.body.immovable = true;
 		});
 	}

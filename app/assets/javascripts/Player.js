@@ -13,7 +13,22 @@ var Player = function (id) {
 
 	var create = function () {
 		console.log('Player.create');
-		sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'player-ship');
+
+		this.bullets = game.add.group();
+		this.bullets.enableBody = true;
+		// Add 20 bullets
+		for (var i = 0; i < 20; i++) {
+			var bullet = this.bullets.create(-100, -100, 'laser-green-thin');
+			bullet.kill();
+			//bullet.physicsBodyType = Phaser.Physics.ARCADE;
+			//bullet.body.immovable = true;
+			//bullet.scale.set(0.25);
+			bullet.anchor.set(0.5);
+
+			this.bullets.add(bullet);
+		}
+
+		sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'player-ship-three');
 
 		game.physics.arcade.enable(sprite);
 
@@ -21,20 +36,6 @@ var Player = function (id) {
 		sprite.body.collideWorldBounds = true;
 		sprite.body.drag.set(drag);
 		sprite.body.maxVelocity.set(maxVelocity);
-
-		this.bullets = game.add.group();
-		this.bullets.enableBody = true;
-		// Add 20 bullets
-		for (var i = 0; i < 20; i++) {
-			var bullet = this.bullets.create(-100, -100, 'bullet');
-			bullet.kill();
-			//bullet.physicsBodyType = Phaser.Physics.ARCADE;
-			//bullet.body.immovable = true;
-			bullet.scale.set(0.25);
-			bullet.anchor.set(0.5);
-
-			this.bullets.add(bullet);
-		}
 
 		return sprite;
 	};
@@ -71,6 +72,7 @@ var Player = function (id) {
 		bullet.body.velocity.x = 0;
 		bullet.body.velocity.y = 0;
 
+		bullet.rotation = sprite.rotation;
 		game.physics.arcade.velocityFromAngle(sprite.rotation * (180 / Math.PI), maxVelocity * 3, bullet.body.velocity);
 	}
 
