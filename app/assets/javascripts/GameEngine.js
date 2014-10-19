@@ -6,16 +6,13 @@ var GameEngine = function () {
 
 	var myPlayer;
 	var players = [];
-	var playerGroup;
+	var playersGroup;
 	var obstacles;
 
 	var ready = false;
 	//var test;
 
 	var init = function () {
-		// Set up connection handler
-		ConnectionHandler.init();
-
 		game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-screen', {
 			preload: preload,
 			create: create,
@@ -27,6 +24,7 @@ var GameEngine = function () {
 	var preload = function () {
 
 		game.load.image('player-ship', '/images/player-ship.png');
+		//game.load.image('space-background', '/images/spaaaaaace.png');
 
 	}
 
@@ -40,10 +38,18 @@ var GameEngine = function () {
 		// The size of the world
 		game.world.setBounds(0, 0, 1600, 1200);
 
+		//game.add.tileSprite(0, 0, 1000, 600, 'space-background');
+
+		playersGroup = game.add.group();
+		console.log(playersGroup);
+
 		// A testing key to add an enemy to the world
 		var key_shoot = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		key_shoot.onDown.add(fireZeBullets, this);
 
+
+		// Set up connection handler
+		ConnectionHandler.init();
 	}
 
 	var loadObstacles = function (obstacleData) {
@@ -62,8 +68,9 @@ var GameEngine = function () {
 	}
 
 	var spawnMyPlayer = function (name) {
+		console.log('spawn');
+		console.log(playersGroup);
           myPlayer = new Player(name);
-          playersGroup = game.add.group();
           var mpSprite = myPlayer.create();
           playersGroup.add(mpSprite);
           players.push(myPlayer);
