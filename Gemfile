@@ -30,8 +30,10 @@ gem 'spring',        group: :development
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use unicorn as the app server
-gem 'unicorn', group: :production
+# gem 'unicorn', group: :production
 gem 'rails_12factor', group: :production
+# gem 'puma'
+ gem 'thin'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -41,3 +43,4 @@ gem 'rails_12factor', group: :production
 
 gem 'websocket-rails'
 gem 'annotate'
+# gem 'hiredis'
