@@ -6,6 +6,7 @@ var Player = function (id) {
 
 	var ship,
 		bullets,
+		label,
 		isAccelerating = false,
 		isDecelerating = false,
 		isTurningLeft = false,
@@ -36,14 +37,16 @@ var Player = function (id) {
 			this.bullets.add(bullet);
 		}
 
+	    var style = { font: "14px Arial", fill: "#ffffff", align: "center" };
+
+	    label = game.add.text(this.ship.x - 20, this.ship.y + 36, id, style);
+
 		return this.ship;
 	};
 
 	var update = function () {
-          if(this.id != id)
-            console.log(this.isAccelerating);   
-		//console.log(sprite.x);
-		// The player's acceleration/deceleration
+		label.x = this.ship.x - 20;
+		label.y = this.ship.y + 36;
 		if (this.isAccelerating) {
 			game.physics.arcade.accelerationFromRotation(this.ship.rotation, maxVelocity, this.ship.body.acceleration);
 		} else if (this.isDecelerating) {
