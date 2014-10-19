@@ -21,13 +21,13 @@ module Sockets
       dead_stat.deaths += 1
       dead_stat.save
       grab_scores
-      if score_stat.kills >= 10
-        websocket_channel(message[:game_id]).trigger(:end_game, message)
-        websocket_channel(message[:game_id]).trigger(:new_message,
-          { message: "Game over" })
-        websocket_channel(message[:game_id]).trigger(:new_message,
-          { message: "#{message[:player_id]} won!" })
-      end
+      # if score_stat.kills >= 10
+      #   websocket_channel(message[:game_id]).trigger(:end_game, message)
+      #   websocket_channel(message[:game_id]).trigger(:new_message,
+      #     { message: "Game over" })
+      #   websocket_channel(message[:game_id]).trigger(:new_message,
+      #     { message: "#{message[:player_id]} won!" })
+      # end
       websocket_channel(message[:game_id]).trigger(:new_message, { message: "#{message[:scoring_player]} #{verbs.sample} #{message[:dead_player]}." })
     end
 
