@@ -9,7 +9,7 @@ var ShipHandler = function () {
     });
 
     ConnectionHandler.channel.bind('respawn_ship', function (data) {
-      game_instance.killAndRespawn(data.dead_player);
+      game_instance.killAndRespawn(data.dead_player, data.new_position);
     });
 
   };

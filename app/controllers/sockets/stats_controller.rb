@@ -5,7 +5,10 @@ module Sockets
 
     def update_score
       # Send reswawn signal to clients
-      websocket_channel(message[:game_id]).trigger('respawn_ship', message)
+      x = rand(1600)
+      y = rand(1200)
+      websocket_channel(message[:game_id]).trigger('respawn_ship',
+        message.merge( new_position: { x: x, y: y }))
 
       #update scoring player
       score_stat = get_scoring_player_stat

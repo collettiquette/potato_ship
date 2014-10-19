@@ -249,12 +249,12 @@ var GameEngine = function () {
 
 	};
 
-	var killAndRespawn = function (dead_player) {
+	var killAndRespawn = function (dead_player, new_position) {
     $.each(players, function (index, player) {
       if (player.id == dead_player) {
         player.ship.kill();
         setTimeout(function () {
-          player.ship.reset(-50, -50, 30);
+          player.ship.reset(new_position.x, new_position.y, 30);
           player.ship.revive(30);
           player.ship.health = 30;
         }, 3000);
