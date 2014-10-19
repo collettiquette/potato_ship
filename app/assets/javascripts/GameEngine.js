@@ -136,6 +136,7 @@ var GameEngine = function () {
 	};
 
 	var updatePlayers = function (updatedData) {
+		if (updatedData.player_name != myPlayer.id) {
           $.each(players, function (index, player) {
             if (player.id == updatedData.player_name) {
               player.isDecelerating = updatedData.change.down;
@@ -148,6 +149,7 @@ var GameEngine = function () {
               return;
             }
           });
+    }
 	};
 
 	var update = function () {

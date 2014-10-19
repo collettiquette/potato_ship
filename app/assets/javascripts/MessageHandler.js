@@ -1,5 +1,4 @@
 var MessageHandler = function (dispatcher, channel) {
-  console.log('New message handler!');
 
   var dispatcher,
       channel,
