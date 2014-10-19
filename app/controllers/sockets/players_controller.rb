@@ -1,6 +1,7 @@
 module Sockets
   class PlayersController < Sockets::ApplicationController
     def join_game
+      puts message[:player_name]
       player = Player.find_by(name: message[:player_name])
       puts "Player connected #{player.name}"
       game = find_game
