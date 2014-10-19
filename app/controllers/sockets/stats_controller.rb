@@ -4,6 +4,9 @@ module Sockets
     end
 
     def update_score
+      # Send reswawn signal to clients
+      websocket_channel(message[:game_id]).trigger('respawn_ship', message)
+
       #update scoring player
       score_stat = get_scoring_player_stat
       score_stat.score += 5
