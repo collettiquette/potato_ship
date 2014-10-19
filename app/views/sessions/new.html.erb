@@ -6,6 +6,25 @@
   </ul>
 <% end %>
 
-<%= form_for :sessions, url: sessions_path do |f| %>
-  <%= text_field_tag "sessions[player_name]" ,@player.name %>
-<% end %>
+<div id="new-game" class="rounded-window">
+	<h2>Join a game</h2>
+	<%= form_for :sessions, url: sessions_path do |f| %>
+
+	  <div id="pick-your-ship">
+		  <h3>Pick a ship</h3>
+		  <% [ 'one', 'two', 'three', 'four' ].each do |ship_type| %>
+	        <div class="ship">
+		        <%= label_tag do %>
+		        	<img src="/images/site/player-ship-<%= ship_type %>.png" alt="<%= ship_type %>" />
+		        	<div class="ship-name"><%= ship_type.humanize %></div>
+		        	<%= radio_button_tag 'ship_type', ship_type %>
+		        <% end %>
+		    </div>
+	      <% end %>
+	  </div>
+
+	  <%= text_field_tag "sessions[player_name]" ,@player.name, :placeholder => 'Pilot Name' %>
+
+	  <%= submit_tag "Join Game" %>
+	<% end %>
+</div>

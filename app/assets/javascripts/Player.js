@@ -12,7 +12,7 @@ var Player = function (id) {
 		isTurningLeft = false,
 		isTurningRight = false;
 
-	var create = function () {
+	var create = function (isLocalPlayer) {
                 selected_ship_type = ConnectionHandler.shipType;
 		this.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'player-ship-' + selected_ship_type);
 
@@ -29,7 +29,10 @@ var Player = function (id) {
 		this.bullets.enableBody = true;
 		// Add 20 bullets
 		for (var i = 0; i < 20; i++) {
-			var bullet = this.bullets.create(-100, -100, 'laser-green-thin');
+			if (isLocalPlayer)
+				var bullet = this.bullets.create(-100, -100, 'laser-green-thin');
+			else
+				var bullet = this.bullets.create(-100, -100, 'laser-blue-thin');
 			bullet.kill();
 			//bullet.body.collideWorldBounds = true;
 			bullet.checkWorldBounds = true;

@@ -1,17 +1,23 @@
+@import url(http://fonts.googleapis.com/css?family=Squada+One)
+
 html
 	font-size: 16px
+	font-family: 'Squada One', sans-serif
 
 body
 	background-color: #483052
-	// I don't know what rails voodoo is breaking this, but I don't want it in /assets/ first
-	//background-image: url(images/site/background-stars.png)
 	background-image: linear-gradient(0deg, rgba(0,0,0,0.0), rgba(0, 0, 0, 0.25))
 	background-size: auto 400px
 	background-repeat: repeat-x
 	text-align: center
-	margin: 3rem 1rem
+	margin: 5rem 1rem 3rem 1rem
 
-header
+a
+	color: #36bbf5
+	text-decoration: none
+
+	&:hover
+		color: #fff
 
 #game-container
 	margin: 2rem
@@ -28,7 +34,7 @@ header
 
 	table
 		width: 400px
-		margin: 0 auto
+		margin: 0 auto 1rem auto
 		border: 5px solid rgba(0, 0, 0, 0.25)
 		border-radius: 4px
 
@@ -36,3 +42,62 @@ header
 		tr
 			&:nth-child(odd)
 				background-color: rgba(0, 0, 0, 0.1)
+
+.rounded-window
+	box-sizing: border-box
+	width: 800px
+	height: 600px
+	margin: 0 auto
+	border: 10px solid rgba(0, 0, 0, 0.3)
+	border-radius: 4px
+	background-color: #483052
+	background-image: url(/images/site/background-stars.png)
+	color: #fff
+
+#new-game
+	label
+		display: block
+		margin-bottom: 0.5rem
+
+	input
+		margin: 1rem auto
+		padding: 1em
+		font-family: 'Squada One', sans-serif
+		font-size: 1.5rem
+		border: 3px solid rgba(0, 0, 0, 0.25)
+		border-radius: 4px
+		text-align: center
+
+		&[type=text]
+			background-color: #eaebeb
+			color: #333
+			outline-width: 0
+			&:focus
+				border-color: #ffcc00
+
+		&[type=submit]
+			margin-left: 2rem
+			background-color: #71ca32
+			cursor: pointer
+			&:hover,
+			&:focus
+				background-color: darken(#71ca32, 10%)
+
+
+#pick-your-ship
+	.ship
+		display: inline-block
+		width: 20%
+
+		label
+			padding: 1rem 0
+			cursor: pointer
+			border-radius: 4px
+			&:hover
+				background-color: rgba(0, 0, 0, 0.2)
+
+	.ship-name
+		margin-top: 0.5rem
+
+#historical-scores
+	padding-top: 3rem
