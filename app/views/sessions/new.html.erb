@@ -4,12 +4,12 @@
 
 	  <div id="pick-your-ship">
 		  <h3>Pick a ship</h3>
-		  <% [ 'one', 'two', 'three', 'four' ].each do |ship_type| %>
+		  <% [ 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight' ].each do |ship_type| %>
 	        <div class="ship">
 		        <%= label_tag do %>
 		        	<img src="/images/site/player-ship-<%= ship_type %>.png" alt="<%= ship_type %>" />
-		        	<div class="ship-name"><%= ship_type.humanize %></div>
-		        	<%= radio_button_tag 'sessions[ship_type]', ship_type %>
+		        	<!--<div class="ship-name"><%= ship_type.humanize %></div>-->
+		        	<div><%= radio_button_tag 'sessions[ship_type]', ship_type %></div>
 		        <% end %>
 		    </div>
 	      <% end %>

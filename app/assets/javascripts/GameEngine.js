@@ -29,6 +29,10 @@ var GameEngine = function () {
 		game.load.image('player-ship-two', '/images/player-ship-two.png');
 		game.load.image('player-ship-three', '/images/player-ship-three.png');
 		game.load.image('player-ship-four', '/images/player-ship-four.png');
+		game.load.image('player-ship-five', '/images/player-ship-five.png');
+		game.load.image('player-ship-six', '/images/player-ship-six.png');
+		game.load.image('player-ship-seven', '/images/player-ship-seven.png');
+		game.load.image('player-ship-eight', '/images/player-ship-eight.png');
 
 		game.load.image('ship-thruster', '/images/ship-thruster.png');
 
