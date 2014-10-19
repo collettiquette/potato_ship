@@ -13,7 +13,7 @@ var Player = function (id) {
 
 	var create = function () {
 		console.log('Player.create');
-		this.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'player-ship');
+		this.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'player-ship-three');
 
 		game.physics.arcade.enable(this.ship);
 
@@ -26,11 +26,11 @@ var Player = function (id) {
 		this.bullets.enableBody = true;
 		// Add 20 bullets
 		for (var i = 0; i < 20; i++) {
-			var bullet = this.bullets.create(-100, -100, 'bullet');
+			var bullet = this.bullets.create(-100, -100, 'laser-green-thin');
 			bullet.kill();
 			//bullet.physicsBodyType = Phaser.Physics.ARCADE;
 			//bullet.body.immovable = true;
-			bullet.scale.set(0.25);
+			//bullet.scale.set(0.25);
 			bullet.anchor.set(0.5);
 
 			this.bullets.add(bullet);
@@ -73,6 +73,7 @@ var Player = function (id) {
 		bullet.body.velocity.x = 0;
 		bullet.body.velocity.y = 0;
 
+		bullet.rotation = this.ship.rotation;
 		game.physics.arcade.velocityFromAngle(this.ship.rotation * (180 / Math.PI), maxVelocity * 3, bullet.body.velocity);
 	}
 
