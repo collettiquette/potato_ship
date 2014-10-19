@@ -15,8 +15,7 @@ class Stat < ActiveRecord::Base
 
   def to_h
     { id:        id,
-      player_id: player_id,
-      player_name: Player.find(player_id).name,
+      player_name: player.name,
       game_id:   game_id,
       score:     score,
       kills:     kills,

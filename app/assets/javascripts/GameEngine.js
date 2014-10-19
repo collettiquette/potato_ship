@@ -234,9 +234,7 @@ var GameEngine = function () {
 
 	var updateScores = function (dead_player, kill_player) {
 		stats = new Stats(ConnectionHandler.dispatcher,ConnectionHandler.channel);
-		stats.update_score(ConnectionHandler.gameID,kill_player.id,5);
-		stats.update_kills(ConnectionHandler.gameID,kill_player.id,1);
-		stats.update_deaths(ConnectionHandler.gameID,dead_player.id,1);
+		stats.update_score(ConnectionHandler.gameID, kill_player.id, dead_player.id);
 	}
 
 	var update = function () {
