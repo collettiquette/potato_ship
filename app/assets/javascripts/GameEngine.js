@@ -198,6 +198,25 @@ var GameEngine = function () {
                 player.isAccelerating = updatedData.change.up;
                 player.isTurningLeft = updatedData.change.left;
                 player.isTurningRight = updatedData.change.right;
+
+                if (typeof(updatedData.health) != 'undefined'){
+                    player.ship.health = updatedData.health;
+
+                    if (player.ship.health <= 0) {
+                      killAndRespawn(player, null);
+                      // player.ship.health = 30;
+                    } else {
+                      var tween = game.add.tween(player.ship);
+                      tween.to({
+                        x: updatedData.position.x,
+                        y: updatedData.position.y,
+                        rotation: updatedData.position.angle
+                      }, 1000);
+                      tween.start();
+                    }
+                  return;
+                }
+
                 var tween = game.add.tween(player.ship);
                 tween.to({
                   x: updatedData.position.x,
@@ -205,10 +224,6 @@ var GameEngine = function () {
                   rotation: updatedData.position.angle
                 }, 1000);
                 tween.start();
-
-                if (typeof(updatedData.health) != 'undefined'){
-                    player.ship.health = updatedData.health;
-                }
                 return;
               }
             });
@@ -217,8 +232,8 @@ var GameEngine = function () {
               myPlayer.ship.health = updatedData.health;
 
               if(myPlayer.ship.health <= 0){
-                myPlayer.ship.kill();
                 killAndRespawn(myPlayer, null);
+                // myPlayer.ship.health = 30;
               }
             }
           }
@@ -227,11 +242,15 @@ var GameEngine = function () {
 
 	var killAndRespawn = function (dead_player, kill_player) {
           //make sure person is alive before bullet hits in bullet_hits_player
-            console.log("Health before reset: " + dead_player.ship.health);
-            dead_player.ship.reset(-50, -50, 30);
-            console.log("Health after reset: " + dead_player.ship.health);
-            dead_player.ship.revive(30);
-            console.log("Health after revive: " + dead_player.ship.health);
+            dead_player.ship.kill();
+            setTimeout(function () {
+              console.log("Health before reset: " + dead_player.ship.health);
+              dead_player.ship.reset(-50, -50, 30);
+              console.log("Health after reset: " + dead_player.ship.health);
+              dead_player.ship.revive(30);
+              console.log("Health after revive: " + dead_player.ship.health);
+              dead_player.ship.health = 30;
+            }, 3000);
 	}
 
 	var updateScores = function (dead_player, kill_player) {

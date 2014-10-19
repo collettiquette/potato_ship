@@ -2,7 +2,6 @@ module Sockets
   class ShipsController < Sockets::ApplicationController
 
     def update_ship
-      message[:health] = 30 if message[:health] == 0
       websocket_channel(message[:game_id]).trigger(:update_ship, message)
     end
 

@@ -12,8 +12,6 @@ module Sockets
     end
 
     def games
-      p redis[:games]
-      p JSON.parse(redis[:games])
       @games ||= JSON.parse(redis[:games] ||= {}.to_json)
         .each_with_object({}) do |(game_id, game_hash), result|
           result[game_id.to_i] = Game.parse(game_hash)
