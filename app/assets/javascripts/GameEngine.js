@@ -109,6 +109,9 @@ var GameEngine = function () {
 	}
 
 	var fireZeBullets = function () {
+		if (!myPlayer.ship.alive)
+			return;
+
 		myPlayer.shoot();
     var change = {
       up: false,
