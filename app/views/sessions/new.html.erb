@@ -1,3 +1,11 @@
+<% if @player.errors.any? %>
+  <ul>
+    <% @player.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
 <%= form_for :sessions, url: sessions_path do |f| %>
-  <%= f.text_field :player_name %>
+  <%= text_field_tag "sessions[player_name]" ,@player.name %>
 <% end %>
