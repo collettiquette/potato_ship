@@ -50,13 +50,13 @@ var Player = function (id) {
 
 	    var style = { font: "14px Arial", fill: "#ffffff", align: "center" };
 
-	    label = game.add.text(this.ship.x - 20, this.ship.y + 36, id, style);
+	    label = game.add.text(this.ship.x, this.ship.y + 36, id, style);
 
 		return this.ship;
 	};
 
 	var update = function () {
-		label.x = this.ship.x - 20;
+		label.x = this.ship.x - (label.width / 2);
 		label.y = this.ship.y + 36;
 		if (this.isAccelerating) {
 			game.physics.arcade.accelerationFromRotation(this.ship.rotation, maxVelocity, this.ship.body.acceleration);
