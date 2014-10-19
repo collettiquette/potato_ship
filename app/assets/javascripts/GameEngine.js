@@ -146,6 +146,7 @@ var GameEngine = function () {
           players.push(myPlayer);
           game.camera.follow(mpSprite);
           ready = true;
+          $('#loading').fadeOut(200);
 	}
 
 	var spawnRemotePlayer = function (name, ship_type) {
