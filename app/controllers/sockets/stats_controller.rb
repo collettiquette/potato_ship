@@ -15,6 +15,13 @@ module Sockets
       stat.kills = message[:kills]
       store_games
       grab_scores
+      if stat.kills >= 10
+        websocket_channel(message[:game_id]).trigger(:end_game, message)
+        websocket_channel(message[:game_id]).trigger(:new_message,
+          { message: "Game over" })
+        websocket_channel(message[:game_id]).trigger(:new_message,
+          { message: "#{message[:player_id]} won!" })
+      end
     end
 
     def update_deaths
@@ -29,13 +36,11 @@ module Sockets
     def grab_scores
       game = games[message[:game_id]]
       scores = game.stats.values.map(&:to_h)
-      WebsocketRails[:da_game].trigger(:update_client_scores, scores)
+      websocket_channel(message[:game_id]).trigger(:update_client_scores, scores)
     end
 
     def get_stat_for_player
-      games[message[:game_id]].stats.values.find do |s|
-        s.player_id == message[:player_id]
-      end
+      games[message[:game_id]][message[:player_id]]
     end
 
   end

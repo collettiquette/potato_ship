@@ -31,6 +31,7 @@ var ConnectionHandler = {
           ObstacleHandler().init();
           PlayerHandler(response.player_name).init();
           ShipHandler().init();
+          GameHandler().init();
           MessageHandler(ConnectionHandler.dispatcher, ConnectionHandler.channel).init();
           ConnectionHandler.dispatcher.trigger('player_connected', response);
         }
