@@ -33,7 +33,10 @@ var Player = function (id) {
 		for (var i = 0; i < 20; i++) {
 			var bullet = this.bullets.create(-100, -100, 'laser-green-thin');
 			bullet.kill();
-      bullet.player = this;
+			//bullet.body.collideWorldBounds = true;
+			bullet.checkWorldBounds = true;
+			bullet.events.onOutOfBounds.add(bulletReset, this);
+			bullet.player = this;
 			//bullet.physicsBodyType = Phaser.Physics.ARCADE;
 			//bullet.body.immovable = true;
 			//bullet.scale.set(0.25);
@@ -83,6 +86,10 @@ var Player = function (id) {
 
 		bullet.rotation = this.ship.rotation;
 		game.physics.arcade.velocityFromAngle(this.ship.rotation * (180 / Math.PI), maxVelocity * 3, bullet.body.velocity);
+	}
+
+	var bulletReset = function (bullet) {
+		bullet.kill();
 	}
 
 	var position = function () {
