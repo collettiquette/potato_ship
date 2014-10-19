@@ -5,7 +5,8 @@ module Sockets
     end
 
     def player_connected
-      player = Player.find_by(name: message[:player_name])
+      player_name = CGI::parse(message[:player_name]).keys.first
+      player = Player.find_by(name: player_name)
       puts "Player connected #{player.name}"
       game = find_game
       game[client_id] = Stat.new(player: player, game_id: game.id)
