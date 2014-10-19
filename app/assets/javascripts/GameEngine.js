@@ -158,27 +158,31 @@ var GameEngine = function () {
 	};
 
 	var bullet_hits_player = function (bullet, ship) {
-		bullet.kill();
-		ship.damage(3);
-    var change = {
-      up: false,
-      down: false,
-      left: false,
-      right: false
-    };
+          bullet.kill();
 
-	  ConnectionHandler.dispatcher.trigger('update_ship', {
-	    change: change,
-	    position: ship.player.position(),
-	    player_name: ship.player.id,
-	    game_id: ConnectionHandler.gameID,
-			health: ship.health
-	  });
+          if(bullet.player.name == myPlayer.name){
+            ship.damage(3);
 
-		if ( !ship.alive ) {
-			killAndRespawn(ship.player, bullet.player);
-			updateScores(ship.player, bullet.player);
-		}
+            var change = {
+              up: false,
+              down: false,
+              left: false,
+              right: false
+            };
+
+            ConnectionHandler.dispatcher.trigger('update_ship', {
+              change: change,
+              position: ship.player.position(),
+              player_name: ship.player.id,
+              game_id: ConnectionHandler.gameID,
+              health: ship.health
+            });
+
+            if ( !ship.alive ) {
+              killAndRespawn(ship.player, bullet.player);
+              updateScores(ship.player, bullet.player);
+            }
+          }
 	};
 
 	var updatePlayers = function (updatedData) {
