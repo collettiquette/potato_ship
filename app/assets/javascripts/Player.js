@@ -33,6 +33,7 @@ var Player = function (id) {
 		for (var i = 0; i < 20; i++) {
 			var bullet = this.bullets.create(-100, -100, 'laser-green-thin');
 			bullet.kill();
+      bullet.player = this;
 			//bullet.physicsBodyType = Phaser.Physics.ARCADE;
 			//bullet.body.immovable = true;
 			//bullet.scale.set(0.25);

@@ -5,14 +5,15 @@ module Sockets
 
     def update_score
       stat = get_stat_for_player
-      stat.score = message[:score]
+      stat.score += message[:score]
       store_games
       grab_scores
     end
 
     def update_kills
+      p message
       stat = get_stat_for_player
-      stat.kills = message[:kills]
+      stat.kills += message[:kills]
       store_games
       grab_scores
       if stat.kills >= 10
@@ -26,7 +27,7 @@ module Sockets
 
     def update_deaths
       stat = get_stat_for_player
-      stat.deaths = message[:deaths]
+      stat.deaths += message[:deaths]
       store_games
       grab_scores
     end

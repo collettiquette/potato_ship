@@ -133,7 +133,6 @@ var GameEngine = function () {
 	var bullet_hits_player = function (bullet, ship) {
 		bullet.kill();
 		ship.damage(3);
-
     var change = {
       up: false,
       down: false,
@@ -148,6 +147,11 @@ var GameEngine = function () {
 	    game_id: ConnectionHandler.gameID,
 			health: ship.health
 	  });
+
+		if ( !ship.alive ) {
+			killAndRespawn(ship.player, bullet.player);
+			updateScores(ship.player, bullet.player);
+		}
 	};
 
 	var updatePlayers = function (updatedData) {
@@ -161,13 +165,37 @@ var GameEngine = function () {
               player.ship.x = updatedData.position.x;
               player.ship.y = updatedData.position.y;
               player.ship.rotation = updatedData.position.angle;
-							console.log(updatedData.health);
-							player.ship.health = updatedData.health;
+
+							if (typeof(updatedData.health) != 'undefined'){
+								player.ship.health = updatedData.health;
+							}
               return;
             }
           });
-    }
+			} else {
+				if (typeof(updatedData.health) != 'undefined'){
+					myPlayer.ship.health = updatedData.health;
+
+					if(myPlayer.ship.health <= 0){
+						myPlayer.ship.kill();
+						killAndRespawn(myPlayer, null);
+					}
+				}
+			}
+
 	};
+
+	var killAndRespawn = function (dead_player, kill_player) {
+		dead_player.ship.reset(-50, -50);
+		dead_player.ship.revive(30);
+	}
+
+	var updateScores = function (dead_player, kill_player) {
+		stats = new Stats(ConnectionHandler.dispatcher,ConnectionHandler.channel);
+		stats.update_score(ConnectionHandler.gameID,kill_player.id,5);
+		stats.update_kills(ConnectionHandler.gameID,kill_player.id,1);
+		stats.update_deaths(ConnectionHandler.gameID,dead_player.id,1);
+	}
 
 	var update = function () {
 
@@ -209,7 +237,6 @@ var GameEngine = function () {
               position: myPlayer.position(),
               player_name: myPlayer.id,
               game_id: ConnectionHandler.gameID,
-							health: myPlayer.ship.health
             });
           }
 	}
