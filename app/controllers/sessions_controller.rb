@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
     end
 
     def ship_type_param
-      session_params[:player_name]
+      session_params[:ship_type_param]
     end
 
     def player_name_param
