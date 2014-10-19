@@ -33,7 +33,7 @@ class Game
   end
 
   def full?
-    stats.length >= 10
+    stats.length >= 5
   end
 
   def remove(player_id)
