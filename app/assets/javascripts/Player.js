@@ -95,6 +95,8 @@ var Player = function (id) {
 
 	var destroy = function () {
 		this.ship.destroy();
+		label.destroy();
+		this.thruster.destroy();
 	}
 
 	var shoot = function () {
