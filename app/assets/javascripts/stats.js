@@ -8,7 +8,7 @@ var Stats = function(dispatcher,channel) {
   var update_score = function(game_id,scoring_player_id,dead_player_id) {
     dispatcher.trigger("update_score",
     { game_id: game_id,
-      socring_player: scoring_player_id,
+      scoring_player: scoring_player_id,
       dead_player: dead_player_id }
     );
   }
