@@ -72,7 +72,16 @@ var GameEngine = function () {
 
 		$.each(obstacleData.obstacles, function (index, which) {
 			var obstacle = obstacles.create(which.x, which.y, 'obstacle-' + which.frame);
+			var speed = 10 * Math.random();
+			obstacle.angle = 360 * Math.random();
+			obstacle.body.angularVelocity = (Math.random() * 30) - 15;
+
+			// This will make them float around a bit, but doesn't update on the server yet
+			//game.physics.arcade.velocityFromAngle(obstacle.angle, speed, obstacle.body.velocity);
+
 			obstacle.body.immovable = true;
+			obstacle.anchor.set(0.5);
+
 			switch (which.frame) {
 				case 'one':
 					obstacle.body.setSize(32, 32, 8, 8);
