@@ -1,5 +1,5 @@
 class Obstacle
-  FRAMES = ['one']
+  FRAMES = ['one', 'two', 'three', 'four', 'five']
 
   attr_reader :x, :y, :frame
 

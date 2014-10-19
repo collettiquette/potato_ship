@@ -35,6 +35,9 @@ var GameEngine = function () {
 		// Obstacles
 		game.load.image('obstacle-one', '/images/obstacle-one.png');
 		game.load.image('obstacle-two', '/images/obstacle-two.png');
+		game.load.image('obstacle-three', '/images/obstacle-three.png');
+		game.load.image('obstacle-four', '/images/obstacle-four.png');
+		game.load.image('obstacle-five', '/images/obstacle-five.png');
 
 		// Backgrounds
 		game.load.image('background-space-one', '/images/background-space-one.png');
