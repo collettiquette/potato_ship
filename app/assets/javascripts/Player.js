@@ -13,7 +13,10 @@ var Player = function (id) {
 		isTurningRight = false;
 
 	var create = function () {
-		this.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'player-ship-three');
+                choices = ['one','two','three']
+                choice = choices[Math.floor(Math.random() * choices.length)]
+
+		this.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'player-ship-' + choice);
 
 		game.physics.arcade.enable(this.ship);
 
@@ -21,6 +24,8 @@ var Player = function (id) {
 		this.ship.body.collideWorldBounds = true;
 		this.ship.body.drag.set(drag);
 		this.ship.body.maxVelocity.set(maxVelocity);
+    this.ship.health = 30;
+    this.ship.player = this;
 
 		this.bullets = game.add.group();
 		this.bullets.enableBody = true;

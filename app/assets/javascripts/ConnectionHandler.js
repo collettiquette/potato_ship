@@ -13,6 +13,7 @@ var ConnectionHandler = {
   dispatcher: null,
   channel: null,
   myName: null,
+  gameID: null,
 
   init: function () {
     this.dispatcher = new WebSocketRails(window.location.host + '/websocket');
@@ -24,16 +25,17 @@ var ConnectionHandler = {
         {
           player_name: ConnectionHandler.myName
         }, function (response) {
+          ConnectionHandler.gameID = response.game_id;
           ConnectionHandler.channel = ConnectionHandler.dispatcher.subscribe('game_' + response.game_id);
 
           ObstacleHandler().init();
           PlayerHandler(response.player_name).init();
           ShipHandler().init();
+          GameHandler().init();
           MessageHandler(ConnectionHandler.dispatcher, ConnectionHandler.channel).init();
-          ConnectionHandler.dispatcher.trigger('player_connected', response)
+          ConnectionHandler.dispatcher.trigger('player_connected', response);
         }
       );
-
     }
 
   }

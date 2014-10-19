@@ -6,7 +6,6 @@ var PlayerHandler = function () {
 
   var init = function () {
     channel.bind('player_connected', function (data) {
-      dispatcher.trigger('include_obstacles', { game_id: data.game_id });
       if (myName == data.new_player_name) {
         game_instance.spawnMyPlayer(ConnectionHandler.myName);
 

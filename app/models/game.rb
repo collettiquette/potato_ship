@@ -17,21 +17,25 @@ class Game
     @obstacles = obstacles || generate_obstacles
   end
 
-  def []=(conn_id, stat)
+  def []=(player_id, stat)
     stat.game_id = id
-    stats[conn_id] = stat
+    stats[player_id] = stat
   end
 
-  def [](conn_id)
-    stats[conn_id]
+  def [](player_id)
+    stats[player_id]
+  end
+
+  def over?
+    stats.any? { |s| s.kills >= 10 }
   end
 
   def full?
-    stats.length >= 3
+    stats.length >= 10
   end
 
-  def remove(conn_id)
-    stats.delete(conn_id)
+  def remove(player_id)
+    stats.delete(player_id)
   end
 
   def player_names
