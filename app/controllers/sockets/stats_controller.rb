@@ -41,7 +41,6 @@ module Sockets
     end
 
     def get_scoring_player_stat
-      p message[:scoring_player]
       get_player_stat(message[:scoring_player])
     end
 
@@ -50,9 +49,6 @@ module Sockets
     end
 
     def get_player_stat(player_id)
-      p "stuff you're looking for right now!"
-      p message[:game_id]
-      p player_id
       Stat.where(game_id: message[:game_id], player_id: Player.find_by(name: player_id)).first
     end
 

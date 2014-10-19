@@ -1,9 +1,7 @@
 module Sockets
   class PlayersController < Sockets::ApplicationController
     def join_game
-      puts message[:player_name]
       player = Player.find_by(name: message[:player_name])
-      puts "Player connected #{player.name}"
       game = find_game
       game[player.name] = Stat.new(player: player, game_id: game.id)
       games[game.id] = game
@@ -48,7 +46,6 @@ module Sockets
 
           websocket_channel(game_id).trigger(:player_disconnected, { player_name: player.name })
           websocket_channel(game_id).trigger(:new_message, { message: "#{player.name} left game." })
-          puts "Player #{player.name} disconnected"
 
           break game
         end
