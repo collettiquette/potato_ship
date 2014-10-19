@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
 
   private
     def session_params
-      params.require(:sessions).permit(:player_name, :ship_type_param)
+      params.require(:sessions).permit(:player_name, :ship_type)
     end
 
     def ship_type_param
