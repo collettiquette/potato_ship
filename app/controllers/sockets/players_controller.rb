@@ -62,7 +62,7 @@ module Sockets
           return games.delete(game_id)
         end
       end
-      Game.new((games.keys.max || 0) + 1)
+      Game.new(Stats.pluck(:game_id).max + 1)
     end
   end
 end
