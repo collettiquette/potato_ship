@@ -9,14 +9,14 @@ var PlayerHandler = function () {
       if (myName == data.new_player_name) {
         game_instance.spawnMyPlayer(ConnectionHandler.myName);
 
-        $.each(data.players, function (index, name) {
-          if (myName != name) {
-            game_instance.spawnRemotePlayer(name);
+        $.each(data.players, function (index, player) {
+          if (myName != player.name) {
+            game_instance.spawnRemotePlayer(player.name, player.ship_type);
           }
         });
 
       } else {
-        game_instance.spawnRemotePlayer(data.new_player_name);
+        game_instance.spawnRemotePlayer(data.new_player_name, data.new_player_ship_type);
       }
     });
 

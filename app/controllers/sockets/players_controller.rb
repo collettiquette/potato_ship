@@ -14,16 +14,19 @@ module Sockets
     def player_connected
       game = games[message[:game_id]]
       connection_store[:user_id] = message[:player_name]
+      players = game.players
+      player = Player.find_by(name: message[:player_name])
 
       obstacles = game.obstacles.map(&:to_h)
       send_message(:include_obstacles, {
         game_id: game.id,
         obstacles: obstacles
       })
-
+      
       websocket_channel(game.id).trigger(:player_connected, {
-        players: game.player_names,
+        players: players,
         new_player_name: message[:player_name],
+        new_player_ship_type: player.ship_type,
         game_id: game.id
       })
 
