@@ -14,7 +14,7 @@ var GameEngine = function () {
 	var world_height = 1200;
 
 	var init = function () {
-		game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-screen', {
+		game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-container', {
 			preload: preload,
 			create: create,
 			update: update,
