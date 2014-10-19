@@ -6,7 +6,7 @@ var GameEngine = function () {
 
 	var myPlayer;
 	var players = [];
-	var playerGroup;
+	var playersGroup;
 	var obstacles;
 
 	var ready = false;
