@@ -8,10 +8,11 @@ module Sockets
     end
 
     def games
-      controller_store[:games] ||= JSON.parse(redis[:games] ||= {}.to_json)
+       controller_store[:games] ||= JSON.parse(redis[:games] ||= {}.to_json)
         .each_with_object({}) do |(game_id, game_hash), result|
           result[game_id.to_i] = Game.parse(game_hash)
         end
+      controller_store[:games]
     end
 
     def store_games
