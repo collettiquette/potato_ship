@@ -137,6 +137,7 @@ var GameEngine = function () {
           bullet.kill();
 
           if(bullet.player.name == myPlayer.name){
+            console.log("Health before bullet damage: " + ship.health);
             ship.damage(3);
 
             var change = {
@@ -162,43 +163,47 @@ var GameEngine = function () {
 	};
 
 	var updatePlayers = function (updatedData) {
-		if (updatedData.player_name != myPlayer.id) {
-          $.each(players, function (index, player) {
-            if (player.id == updatedData.player_name) {
-              player.isDecelerating = updatedData.change.down;
-              player.isAccelerating = updatedData.change.up;
-              player.isTurningLeft = updatedData.change.left;
-              player.isTurningRight = updatedData.change.right;
-              player.ship.rotation = updatedData.position.angle;
-              var tween = game.add.tween(player.ship);
-              tween.to({
-              	x: updatedData.position.x,
-              	y: updatedData.position.y
-              }, 1000);
-              tween.start();
+          if (updatedData.player_name != myPlayer.id) {
+            $.each(players, function (index, player) {
+              if (player.id == updatedData.player_name) {
+                player.isDecelerating = updatedData.change.down;
+                player.isAccelerating = updatedData.change.up;
+                player.isTurningLeft = updatedData.change.left;
+                player.isTurningRight = updatedData.change.right;
+                var tween = game.add.tween(player.ship);
+                tween.to({
+                  x: updatedData.position.x,
+                  y: updatedData.position.y,
+                  rotation: updatedData.position.angle
+                }, 1000);
+                tween.start();
 
-              if (typeof(updatedData.health) != 'undefined'){
-                  player.ship.health = updatedData.health;
+                if (typeof(updatedData.health) != 'undefined'){
+                    player.ship.health = updatedData.health;
+                }
+                return;
               }
-              return;
-            }
-          });
-			} else {
-				if (typeof(updatedData.health) != 'undefined'){
-					myPlayer.ship.health = updatedData.health;
+            });
+          } else {
+            if (typeof(updatedData.health) != 'undefined'){
+              myPlayer.ship.health = updatedData.health;
 
-					if(myPlayer.ship.health <= 0){
-						myPlayer.ship.kill();
-						killAndRespawn(myPlayer, null);
-					}
-				}
-			}
+              if(myPlayer.ship.health <= 0){
+                myPlayer.ship.kill();
+                killAndRespawn(myPlayer, null);
+              }
+            }
+          }
 
 	};
 
 	var killAndRespawn = function (dead_player, kill_player) {
-		dead_player.ship.reset(-50, -50);
-		dead_player.ship.revive(30);
+          //make sure person is alive before bullet hits in bullet_hits_player
+            console.log("Health before reset: " + dead_player.ship.health);
+            dead_player.ship.reset(-50, -50, 30);
+            console.log("Health after reset: " + dead_player.ship.health);
+            dead_player.ship.revive(30);
+            console.log("Health after revive: " + dead_player.ship.health);
 	}
 
 	var updateScores = function (dead_player, kill_player) {
