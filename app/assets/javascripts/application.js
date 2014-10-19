@@ -29,6 +29,10 @@ var ready = function() {
     game_instance.init();
   }
 
+  $('#see-scores').click(function () {
+  	$('#game-scores').fadeToggle(200);
+  });
+
 };
 
 $(document).ready(ready);
