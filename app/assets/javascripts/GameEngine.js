@@ -132,7 +132,10 @@ var GameEngine = function () {
 
 	var bullet_hits_player = function (bullet, player) {
 		bullet.kill();
-		player.kill();
+		//player.kill();
+    ConnectionHandler.dispatcher.trigger('update_health', {
+			player
+    });
 	};
 
 	var updatePlayers = function (updatedData) {
@@ -150,6 +153,14 @@ var GameEngine = function () {
             }
           });
     }
+	};
+
+	var updateHealth = function (updatedPlayer) {
+	  $.each(players, function (index, player) {
+		  if (player.id == updatedPlayer.player_name) {
+				player.health -= 2;
+			}
+		});
 	};
 
 	var update = function () {

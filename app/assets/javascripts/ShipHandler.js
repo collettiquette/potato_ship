@@ -4,6 +4,9 @@ var ShipHandler = function () {
       game_instance.updatePlayers(data);
     });
 
+    ConnectionHandler.channel.bind('update_health', function (data) {
+      game_instance.updateHealth(data);
+    });
   };
 
   return {

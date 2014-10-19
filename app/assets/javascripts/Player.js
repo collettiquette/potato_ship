@@ -21,6 +21,7 @@ var Player = function (id) {
 		this.ship.body.collideWorldBounds = true;
 		this.ship.body.drag.set(drag);
 		this.ship.body.maxVelocity.set(maxVelocity);
+    this.ship.health = 30;
 
 		this.bullets = game.add.group();
 		this.bullets.enableBody = true;
