@@ -4,6 +4,10 @@ var ShipHandler = function () {
       game_instance.updatePlayers(data);
     });
 
+    ConnectionHandler.channel.bind('fire_bullet', function (data) {
+      game_instance.fireRemoteBullet(data);
+    });
+
   };
 
   return {
