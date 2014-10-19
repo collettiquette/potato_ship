@@ -55,7 +55,6 @@ var GameEngine = function () {
 		game.world.setBounds(0, 0, world_width, world_height);
 
 		playersGroup = game.add.group();
-		console.log(playersGroup);
 
 		// A testing key to add an enemy to the world
 		var key_shoot = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -120,10 +119,7 @@ var GameEngine = function () {
           $.each(players, function (index, player) {
             if (player.id == name) {
               player.destroy();
-              console.log(players);
               players.splice(index, 1);
-
-              console.log(players);
 
               return;
             }
@@ -131,12 +127,10 @@ var GameEngine = function () {
 	}
 
 	var bullet_hits_obstacle = function (bullet, obstacle) {
-		console.log('bullet hit obstacle');
 		bullet.kill();
 	};
 
 	var bullet_hits_player = function (bullet, player) {
-		console.log('bullet hit player');
 		bullet.kill();
 		player.kill();
 	};
@@ -151,7 +145,6 @@ var GameEngine = function () {
               player.ship.x = updatedData.position.x;
               player.ship.y = updatedData.position.y;
               player.ship.rotation = updatedData.position.angle;
-              //console.log(player);
               return;
             }
           });

@@ -20,6 +20,7 @@ module Sockets
         game_id: game.id
       })
 
+
       websocket_channel(game.id).trigger(:new_message, {
         message: "#{message[:player_name]} joined game."
       })

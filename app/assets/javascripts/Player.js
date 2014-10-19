@@ -13,7 +13,6 @@ var Player = function (id) {
 		isTurningRight = false;
 
 	var create = function () {
-		console.log('Player.create');
 		this.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'player-ship-three');
 
 		game.physics.arcade.enable(this.ship);
