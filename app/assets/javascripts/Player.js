@@ -5,6 +5,7 @@ var Player = function (id) {
 		maxVelocity = 200;
 
 	var ship,
+		thruster,
 		bullets,
 		label,
 		isAccelerating = false,
@@ -18,16 +19,21 @@ var Player = function (id) {
                 else
                   var selected_ship_type = ship_type
 
+
+		this.thruster = game.add.sprite(game.world.centerX, game.world.centerY, 'ship-thruster');
+		this.thruster.anchor.set(0.5, 0.5);
+
+
 		this.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'player-ship-' + selected_ship_type);
+		this.ship.bringToTop();
 
 		game.physics.arcade.enable(this.ship);
-
 		this.ship.anchor.set(0.5);
 		this.ship.body.collideWorldBounds = true;
 		this.ship.body.drag.set(drag);
 		this.ship.body.maxVelocity.set(maxVelocity);
-    this.ship.health = 30;
-    this.ship.player = this;
+		this.ship.health = 30;
+		this.ship.player = this;
 
 		this.bullets = game.add.group();
 		this.bullets.enableBody = true;
@@ -60,12 +66,21 @@ var Player = function (id) {
 	var update = function () {
 		label.x = this.ship.x - (label.width / 2);
 		label.y = this.ship.y + 36;
+
+		this.thruster.x = this.ship.x;
+		this.thruster.y = this.ship.y;
+		this.thruster.rotation = this.ship.rotation;
+
 		if (this.isAccelerating) {
+			var tween = game.add.tween(this.thruster.anchor).to({ x: 1.5 }, 500);
+			tween.start();
 			game.physics.arcade.accelerationFromRotation(this.ship.rotation, maxVelocity, this.ship.body.acceleration);
 		} else if (this.isDecelerating) {
 			game.physics.arcade.accelerationFromRotation(this.ship.rotation, -1 * maxVelocity, this.ship.body.acceleration);
 		} else {
 			this.ship.body.acceleration.set(0);
+			var tween = game.add.tween(this.thruster.anchor).to({ x: 0.5 }, 100);
+			tween.start();
 		}
 
 		// Turning the player
