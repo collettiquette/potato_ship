@@ -19,7 +19,7 @@ class Player < ActiveRecord::Base
   end
 
   def self.gather_scores
-    all.map(&:historical_stats).compact
+    all.map(&:historical_stats).compact.sort_by{|e| e.score }.reverse
   end
 
   def ship_type

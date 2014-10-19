@@ -183,7 +183,6 @@ var GameEngine = function () {
           bullet.kill();
 
           if(bullet.player.name == myPlayer.name){
-            console.log("Health before bullet damage: " + ship.health);
             ship.damage(3);
 
             var change = {
