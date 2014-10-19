@@ -4,21 +4,38 @@ module Sockets
     end
 
     def update_score
-      get_stat_for_player.score = message[:score]
+      stat = get_stat_for_player
+      stat.score = message[:score]
+      store_games
+      grab_scores
     end
 
     def update_kills
-      get_stat_for_player.kills = message[:score]
+      stat = get_stat_for_player
+      stat.kills = message[:kills]
+      store_games
+      grab_scores
     end
 
     def update_deaths
-      get_stat_for_player.deaths = message[:score]
+      stat = get_stat_for_player
+      stat.deaths = message[:deaths]
+      store_games
+      grab_scores
     end
 
     private
 
+    def grab_scores
+      game = games[message[:game_id]]
+      scores = game.stats.values.map(&:to_h)
+      WebsocketRails[:da_game].trigger(:update_client_scores, scores)
+    end
+
     def get_stat_for_player
-      return games[message[:game_id]][client_id]
+      games[message[:game_id]].stats.values.find do |s|
+        s.player_id == message[:player_id]
+      end
     end
 
   end

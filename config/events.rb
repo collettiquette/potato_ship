@@ -28,5 +28,7 @@ WebsocketRails::EventMap.describe do
                           with_method: :update_kills
   subscribe :update_deaths, to: Sockets::StatsController,
                           with_method: :update_deaths
+  subscribe :grab_scores, to: Sockets::StatsController,
+                          with_method: :grab_scores
 
 end
