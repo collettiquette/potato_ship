@@ -30,6 +30,8 @@ var GameEngine = function () {
 		game.load.image('player-ship-three', '/images/player-ship-three.png');
 		game.load.image('player-ship-four', '/images/player-ship-four.png');
 
+		game.load.image('ship-thruster', '/images/ship-thruster.png');
+
 		// Lasers
 		game.load.image('laser-green-thin', '/images/laser-green-thin.png');
 		game.load.image('laser-blue-thin', '/images/laser-blue-thin.png');
