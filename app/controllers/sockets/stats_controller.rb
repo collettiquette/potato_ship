@@ -23,14 +23,13 @@ module Sockets
       dead_stat.save
       grab_scores
       if score_stat.kills >= 10
-        games.delete(message[:game_id])
         websocket_channel(message[:game_id]).trigger(:end_game, message)
         websocket_channel(message[:game_id]).trigger(:new_message,
           { message: "Game over" })
         websocket_channel(message[:game_id]).trigger(:new_message,
           { message: "#{message[:player_id]} won!" })
       end
-      
+
       websocket_channel(message[:game_id]).trigger(:new_message, { message: "#{message[:scoring_player]} #{VERBS.sample} #{message[:dead_player]}." })
     end
 

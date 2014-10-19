@@ -18,6 +18,8 @@ WebsocketRails::EventMap.describe do
                                with_method: :player_connected
   subscribe :client_disconnected, to: Sockets::PlayersController,
                                   with_method: :client_disconnected
+  subscribe :remove_game, to: Sockets::PlayersController,
+                                  with_method: :remove_game
   subscribe :include_obstacles, to: Sockets::ObstaclesController,
                                 with_method: :include_obstacles
   subscribe :new_message, to: Sockets::MessagesController,

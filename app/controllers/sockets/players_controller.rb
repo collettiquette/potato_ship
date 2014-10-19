@@ -54,6 +54,10 @@ module Sockets
 
     end
 
+    def remove_game
+      games.delete(message[:game_id])
+    end
+
     private
 
     def find_game
