@@ -134,11 +134,11 @@ var GameEngine = function () {
           ready = true;
 	}
 
-	var spawnRemotePlayer = function (name) {
+	var spawnRemotePlayer = function (name, ship_type) {
           var x = -50
           var y = -50
           var myPlayerz = new Player(name);
-          var myPlayerSprite = myPlayerz.create();
+          var myPlayerSprite = myPlayerz.create(false, ship_type);
           myPlayerSprite.reset(x, y, 30);
           playersGroup.add(myPlayerSprite);
           players.push(myPlayerz);

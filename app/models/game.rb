@@ -39,7 +39,11 @@ class Game
   end
 
   def player_names
-    stats.map { |(id, s)| s.player.name }
+    stats.map { |(_, s)| s.player.name }.compact
+  end
+
+  def players
+    stats.map { |(_, s)| s.player }.compact
   end
 
   def generate_obstacles

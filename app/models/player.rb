@@ -22,4 +22,8 @@ class Player < ActiveRecord::Base
     all.map(&:historical_stats).compact
   end
 
+  def ship_type
+    read_attribute(:ship_type).blank? ? "one" : read_attribute(:ship_type)
+  end
+
 end

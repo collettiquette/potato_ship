@@ -12,8 +12,12 @@ var Player = function (id) {
 		isTurningLeft = false,
 		isTurningRight = false;
 
-	var create = function (isLocalPlayer) {
-                selected_ship_type = ConnectionHandler.shipType;
+	var create = function (isLocalPlayer, ship_type) {
+                if (isLocalPlayer)
+                  var selected_ship_type = ConnectionHandler.shipType;
+                else
+                  var selected_ship_type = ship_type
+
 		this.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'player-ship-' + selected_ship_type);
 
 		game.physics.arcade.enable(this.ship);
