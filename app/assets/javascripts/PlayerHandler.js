@@ -1,5 +1,4 @@
 var PlayerHandler = function () {
-  console.log('New player handler!');
 
   var dispatcher = ConnectionHandler.dispatcher,
       channel = ConnectionHandler.channel,
@@ -7,7 +6,6 @@ var PlayerHandler = function () {
 
   var init = function () {
     channel.bind('player_connected', function (data) {
-      console.log('player connected');
       dispatcher.trigger('include_obstacles', { game_id: data.game_id });
       if (myName == data.new_player_name) {
         game_instance.spawnMyPlayer(ConnectionHandler.myName);
@@ -24,7 +22,6 @@ var PlayerHandler = function () {
     });
 
     channel.bind('player_disconnected', function (data) {
-      console.log("Player delete: " + data.player_name);
       game_instance.deletePlayer(data.player_name);
     });
   };

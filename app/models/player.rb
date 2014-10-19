@@ -7,7 +7,7 @@
 #
 
 class Player < ActiveRecord::Base
-  has_many :stats
+  has_many :stats, dependent: :destroy
   validates_uniqueness_of :name
   validates_format_of :name, with: /\A\w+\z/
 

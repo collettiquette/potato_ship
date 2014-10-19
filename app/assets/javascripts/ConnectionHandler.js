@@ -10,7 +10,6 @@ function getCookie(cname) {
 }
 
 var ConnectionHandler = {
-  //console.log('New connection!');
   dispatcher: null,
   channel: null,
   myName: null,
@@ -20,8 +19,6 @@ var ConnectionHandler = {
     this.channel = this.dispatcher.subscribe('da_game');
 
     this.dispatcher.on_open = function(data) {
-      // console.log('Connection has been established: ', data);
-      // console.log(getCookie('player_name'));
       ConnectionHandler.myName = getCookie('player_name');
       ConnectionHandler.dispatcher.trigger("join_game",
         {
@@ -33,7 +30,6 @@ var ConnectionHandler = {
           PlayerHandler(response.player_name).init();
           ShipHandler().init();
           MessageHandler(ConnectionHandler.dispatcher, ConnectionHandler.channel).init();
-
           ConnectionHandler.dispatcher.trigger('player_connected', response)
         }
       );

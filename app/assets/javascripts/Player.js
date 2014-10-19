@@ -12,7 +12,6 @@ var Player = function (id) {
 		isTurningRight = false;
 
 	var create = function () {
-		console.log('Player.create');
 		this.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'player-ship-three');
 
 		game.physics.arcade.enable(this.ship);
@@ -40,27 +39,24 @@ var Player = function (id) {
 	};
 
 	var update = function () {
-          if(this.id != id)
-            console.log(this.isAccelerating);   
-		//console.log(sprite.x);
-		// The player's acceleration/deceleration
-		if (this.isAccelerating) {
-			game.physics.arcade.accelerationFromRotation(this.ship.rotation, maxVelocity, this.ship.body.acceleration);
-		} else if (this.isDecelerating) {
-			game.physics.arcade.accelerationFromRotation(this.ship.rotation, -1 * maxVelocity, this.ship.body.acceleration);
-		} else {
-			this.ship.body.acceleration.set(0);
-		}
+          // The player's acceleration/deceleration
+          if (this.isAccelerating) {
+                  game.physics.arcade.accelerationFromRotation(this.ship.rotation, maxVelocity, this.ship.body.acceleration);
+          } else if (this.isDecelerating) {
+                  game.physics.arcade.accelerationFromRotation(this.ship.rotation, -1 * maxVelocity, this.ship.body.acceleration);
+          } else {
+                  this.ship.body.acceleration.set(0);
+          }
 
-		// Turning the player
-		if (this.isTurningLeft) {
-			this.ship.body.angularVelocity = -300;
-		} else if (this.isTurningRight) {
-			this.ship.body.angularVelocity = 300;
-		} else {
-			this.ship.body.angularVelocity = 0;
-		}
-	}
+          // Turning the player
+          if (this.isTurningLeft) {
+                  this.ship.body.angularVelocity = -300;
+          } else if (this.isTurningRight) {
+                  this.ship.body.angularVelocity = 300;
+          } else {
+                  this.ship.body.angularVelocity = 0;
+          }
+        }
 
 	var destroy = function () {
 		this.ship.destroy();
