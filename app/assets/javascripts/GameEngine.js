@@ -107,7 +107,7 @@ var GameEngine = function () {
 
 	var spawnRemotePlayer = function (name) {
           var x = -50
-          var y = -50 
+          var y = -50
           var myPlayerz = new Player(name);
           var myPlayerSprite = myPlayerz.create();
           myPlayerSprite.reset(x, y);
@@ -133,9 +133,7 @@ var GameEngine = function () {
 	var bullet_hits_player = function (bullet, player) {
 		bullet.kill();
 		//player.kill();
-    ConnectionHandler.dispatcher.trigger('update_health', {
-			player
-    });
+    ConnectionHandler.dispatcher.trigger('update_health', player);
 	};
 
 	var updatePlayers = function (updatedData) {
