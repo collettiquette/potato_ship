@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @player = Player.where(name: player_name_param).first_or_initialize
+    @player = Player.where(name: player_name_param, ship_type: ship_type_param).first_or_initialize
 
     if @player.save
       cookies[:player_name] = @player.name
@@ -18,7 +18,11 @@ class SessionsController < ApplicationController
 
   private
     def session_params
-      params.require(:sessions).permit(:player_name)
+      params.require(:sessions).permit(:player_name, :ship_type_param)
+    end
+
+    def ship_type_param
+      session_params[:player_name]
     end
 
     def player_name_param

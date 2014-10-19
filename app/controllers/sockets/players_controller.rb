@@ -8,7 +8,7 @@ module Sockets
       game[player.name] = Stat.new(player: player, game_id: game.id)
       games[game.id] = game
       store_games
-      trigger_success game_id: game.id, player_name: player.name
+      trigger_success game_id: game.id, player_name: player.name, ship_type: player.ship_type
     end
 
     def player_connected

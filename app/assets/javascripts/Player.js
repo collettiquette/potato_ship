@@ -13,10 +13,8 @@ var Player = function (id) {
 		isTurningRight = false;
 
 	var create = function (isLocalPlayer) {
-                choices = ['one','two','three']
-                choice = choices[Math.floor(Math.random() * choices.length)]
-
-		this.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'player-ship-' + choice);
+                selected_ship_type = ConnectionHandler.shipType;
+		this.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'player-ship-' + selected_ship_type);
 
 		game.physics.arcade.enable(this.ship);
 

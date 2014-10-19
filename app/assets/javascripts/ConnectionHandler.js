@@ -14,6 +14,7 @@ var ConnectionHandler = {
   channel: null,
   myName: null,
   gameID: null,
+  shipType: null,
 
   init: function () {
     this.dispatcher = new WebSocketRails(window.location.host + '/websocket');
@@ -26,6 +27,7 @@ var ConnectionHandler = {
           player_name: ConnectionHandler.myName
         }, function (response) {
           ConnectionHandler.gameID = response.game_id;
+          ConnectionHandler.shipType = response.ship_type;
           ConnectionHandler.channel = ConnectionHandler.dispatcher.subscribe('game_' + response.game_id);
 
           ObstacleHandler().init();
