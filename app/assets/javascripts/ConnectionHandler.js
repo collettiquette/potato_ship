@@ -19,19 +19,23 @@ var ConnectionHandler = {
     this.dispatcher = new WebSocketRails(window.location.host + '/websocket');
 
     this.dispatcher.on_open = function(data) {
-      console.log('Connection has been established: ', data);
-      console.log(getCookie('player_name'));
-      myName = getCookie('player_name');
-      ConnectionHandler.dispatcher.trigger("join_game", { player_name: myName }, function (response) {
-        ConnectionHandler.channel = ConnectionHandler.dispatcher.subscribe('game_' + response.game_id);
+      // console.log('Connection has been established: ', data);
+      // console.log(getCookie('player_name'));
+      ConnectionHandler.myName = getCookie('player_name');
+      ConnectionHandler.dispatcher.trigger("join_game",
+        {
+          player_name: ConnectionHandler.myName
+        }, function (response) {
+          ConnectionHandler.channel = ConnectionHandler.dispatcher.subscribe('game_' + response.game_id);
 
-        ObstacleHandler(ConnectionHandler.dispatcher, ConnectionHandler.channel).init();
-        PlayerHandler().init();
-        ShipHandler(ConnectionHandler.dispatcher, ConnectionHandler.channel).init();
-        MessageHandler(ConnectionHandler.dispatcher, ConnectionHandler.channel).init();
+          ObstacleHandler().init();
+          PlayerHandler(response.player_name).init();
+          ShipHandler().init();
+          MessageHandler(ConnectionHandler.dispatcher, ConnectionHandler.channel).init();
 
-        ConnectionHandler.dispatcher.trigger('player_connected', response)
-      });
+          ConnectionHandler.dispatcher.trigger('player_connected', response)
+        }
+      );
 
     }
 

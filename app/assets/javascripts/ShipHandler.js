@@ -1,4 +1,4 @@
-var ShipHandler = function (dispatcher, channel) {
+var ShipHandler = function () {
   console.log('New ship handler!');
 
   var init = function () {
