@@ -23,7 +23,7 @@ a
 	canvas
 		margin: 0 auto
 
-	#winning
+	.subscreen
 		display: none
 		position: absolute
 		left: 0
@@ -31,6 +31,7 @@ a
 		right: 0
 		bottom: 0
 		background-color: rgba(0, 0, 0, 0.5)
+		padding-top: 3rem
 
 #message-container
 	display: none
@@ -65,29 +66,37 @@ a
 		display: block
 		margin-bottom: 0.5rem
 
-	input
-		margin: 1rem auto
-		padding: 1em
-		font-family: 'Squada One', sans-serif
-		font-size: 1.5rem
-		border: 3px solid rgba(0, 0, 0, 0.25)
-		border-radius: 4px
-		text-align: center
+	input[type=submit]
+		margin-left: 2rem
 
-		&[type=text]
-			background-color: #eaebeb
-			color: #333
-			outline-width: 0
-			&:focus
-				border-color: #ffcc00
+input,
+button,
+a.button
+	margin: 1rem auto
+	padding: 1em
+	font-family: 'Squada One', sans-serif
+	font-size: 1.5rem
+	border: 3px solid rgba(0, 0, 0, 0.25)
+	border-radius: 4px
+	text-align: center
 
-		&[type=submit]
-			margin-left: 2rem
-			background-color: #71ca32
-			cursor: pointer
-			&:hover,
-			&:focus
-				background-color: darken(#71ca32, 10%)
+	&[type=text]
+		background-color: #eaebeb
+		color: #333
+		outline-width: 0
+		&:focus
+			border-color: #ffcc00
+
+button,
+a.button,
+input[type=submit]
+	display: inline-block
+	background-color: #71ca32
+	cursor: pointer
+	color: #333
+	&:hover,
+	&:focus
+		background-color: darken(#71ca32, 10%)
 
 
 #pick-your-ship
@@ -107,3 +116,6 @@ a
 
 #historical-scores
 	padding-top: 3rem
+
+#game-controls
+	margin: 2rem auto

@@ -1,27 +1,33 @@
 
 <div id="game-container" class="rounded-window">
-  <div id="winning">
-    #winning
+  <div id="winning" class="subscreen">
+    <h1>Game over!</h1>
   </div>
+
+  <div id="game-scores" class="subscreen">
+    <table>
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Score</th>
+          <th>Kills</th>
+          <th>Deaths</th>
+        </tr>
+      </thead>
+
+      <tbody id="score-container">
+      </tbody>
+    </table>
+    <a href="/historical_scores" class="button">See the highest scores of all time</a>
+  </div>
+
+</div>
+
+<div id="game-controls">
+  Use the arrow keys to navigate and spacebar to shoot!<br />
+  <button id="see-scores">Toggle scoreboard</button>
 </div>
 
 <div id="message-container">
   <ul></ul>
-</div>
-
-<div id="game-scores">
-  <table>
-    <thead>
-      <tr>
-        <th>Player</th>
-        <th>Score</th>
-        <th>Kills</th>
-        <th>Deaths</th>
-      </tr>
-    </thead>
-
-    <tbody id="score-container">
-    </tbody>
-  </table>
-  <a href="/historical_scores">See the highest scores of all time</a>
 </div>

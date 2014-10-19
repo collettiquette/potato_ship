@@ -65,7 +65,12 @@ var GameEngine = function () {
 		var key_shoot = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		key_shoot.onDown.add(fireZeBullets, this);
 
-		// Test winning conditions by hitting W
+		var key_toggle_scores = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+		key_toggle_scores.onDown.add(function () {
+			$('#game-scores').fadeToggle(200);
+		}, this);
+
+		// Test winning conditions by hitting winning
 		var key_win = game.input.keyboard.addKey(Phaser.Keyboard.W);
 		key_win.onDown.add(function () {
 			ConnectionHandler.channel.trigger('end_game');
