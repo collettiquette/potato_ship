@@ -1,10 +1,6 @@
 module Sockets
   class PlayersController < Sockets::ApplicationController
-    def initialize_session
-      puts 'Initializing session'
-    end
-
-    def player_connected
+    def join_game
       player_name = CGI::parse(message[:player_name]).keys.first
       player = Player.find_by(name: player_name)
       puts "Player connected #{player.name}"
@@ -12,14 +8,20 @@ module Sockets
       game[client_id] = Stat.new(player: player, game_id: game.id)
       games[game.id] = game
       store_games
-      WebsocketRails[:da_game].trigger(:player_connected, {
+      trigger_success game_id: game.id, player_name: player.name
+    end
+
+    def player_connected
+      game = games[message[:game_id]]
+
+      websocket_channel(game.id).trigger(:player_connected, {
         players: game.player_names,
-        new_player_name: player.name,
+        new_player_name: message[:player_name],
         game_id: game.id
       })
 
-      WebsocketRails[:da_game].trigger(:new_message, {
-        message: "#{player.name} joined game."
+      websocket_channel(game.id).trigger(:new_message, {
+        message: "#{message[:player_name]} joined game."
       })
     end
 
@@ -30,8 +32,8 @@ module Sockets
         if stat
           player = stat.player
 
-          WebsocketRails[:da_game].trigger(:player_disconnected, { player_name: player.name })
-          WebsocketRails[:da_game].trigger(:new_message, { message: "#{player.name} left game." })
+          websocket_channel(game_id).trigger(:player_disconnected, { player_name: player.name })
+          websocket_channel(game_id).trigger(:new_message, { message: "#{player.name} left game." })
           puts "Player #{player.name} - #{client_id} disconnected"
 
           break game

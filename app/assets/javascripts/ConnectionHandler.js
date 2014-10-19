@@ -19,46 +19,27 @@ var ConnectionHandler = {
     this.dispatcher = new WebSocketRails(window.location.host + '/websocket');
     this.channel = this.dispatcher.subscribe('da_game');
 
-    this.channel.bind('player_connected', function(data) {
-      console.log('player connected');
-      ConnectionHandler.dispatcher.trigger('include_obstacles', { game_id: data.game_id });
-      if(myName == data.new_player_name){
-        game_instance.spawnMyPlayer(this.myName);
-
-        $.each(data.players, function(index, name) {
-          if(myName != name){
-            game_instance.spawnRemotePlayer(name);
-          }
-        });
-
-      } else {
-        game_instance.spawnRemotePlayer(data.new_player_name);
-      }
-    });
-
-    this.channel.bind('player_disconnected', function(data) {
-      //console.log("Player delete: " + data.player_name);
-      game_instance.deletePlayer(data.player_name);
-    });
-
-    this.channel.bind('include_obstacles', function (data) {
-      //console.log('include obstacles');
-      game_instance.loadObstacles(data);
-    });
-
-    this.channel.bind('update_ship', function (data) {
-      //console.log('Ship updated!');
-      game_instance.updatePlayers(data);
-    })
-
     this.dispatcher.on_open = function(data) {
-      //console.log('Connection has been established: ', data);
-      //console.log(getCookie('player_name'));
-      myName = getCookie('player_name');
-      this.trigger("player_connected", { player_name: myName });
+      // console.log('Connection has been established: ', data);
+      // console.log(getCookie('player_name'));
+      ConnectionHandler.myName = getCookie('player_name');
+      ConnectionHandler.dispatcher.trigger("join_game",
+        {
+          player_name: ConnectionHandler.myName
+        }, function (response) {
+          ConnectionHandler.channel = ConnectionHandler.dispatcher.subscribe('game_' + response.game_id);
+
+          ObstacleHandler().init();
+          PlayerHandler(response.player_name).init();
+          ShipHandler().init();
+          MessageHandler(ConnectionHandler.dispatcher, ConnectionHandler.channel).init();
+
+          ConnectionHandler.dispatcher.trigger('player_connected', response)
+        }
+      );
+
     }
 
-    MessageHandler(this.dispatcher, this.channel).init();
   }
 
 }

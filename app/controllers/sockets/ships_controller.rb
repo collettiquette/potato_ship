@@ -1,7 +1,8 @@
 module Sockets
   class ShipsController < Sockets::ApplicationController
     def update_ship
-      WebsocketRails[:da_game].trigger(:update_ship, message)
+      game = games.values.find { |g| g[client_id] }
+      websocket_channel(game.id).trigger(:update_ship, message)
     end
   end
 end

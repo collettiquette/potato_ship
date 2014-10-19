@@ -3,7 +3,7 @@ module Sockets
     def include_obstacles
       game = games[message[:game_id]]
       obstacles = game.obstacles.map(&:to_h)
-      WebsocketRails[:da_game].trigger(:include_obstacles, {
+      websocket_channel(game.id).trigger(:include_obstacles, {
         game_id: game.id,
         obstacles: obstacles
       })
