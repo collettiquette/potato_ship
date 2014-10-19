@@ -33,6 +33,11 @@ var ready = function() {
   	$('#game-scores').fadeToggle(200);
   });
 
+  $('#loading').show(0);
+  setTimeout(function () {
+  	//$('#loading').fadeOut(200);
+  }, 3000);
+
 };
 
 $(document).ready(ready);

@@ -22,12 +22,15 @@ module Sockets
         game_id: game.id,
         obstacles: obstacles
       })
-      
+
+      x = rand(1600)
+      y = rand(1200)
       websocket_channel(game.id).trigger(:player_connected, {
         players: players,
         new_player_name: message[:player_name],
         new_player_ship_type: player.ship_type,
-        game_id: game.id
+        game_id: game.id,
+        new_player_position: { x: x, y: y }
       })
 
 

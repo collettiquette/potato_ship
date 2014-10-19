@@ -33,11 +33,52 @@ a
 		background-color: rgba(0, 0, 0, 0.5)
 		padding-top: 3rem
 
+#loading
+	z-index: 10
+	background-color: #483052
+	background-image: url(/images/site/background-stars.png)
+	-webkit-animation: scroll-background 20s linear infinite
+
+	.throbber
+		position: absolute
+		top: 50%
+		left: 50%
+		margin-top: -71px
+		margin-left: -71px
+		-webkit-animation: rotate 2s linear infinite
+
+	.controls
+		position: absolute
+		left: 0
+		right: 0
+		top: 75%
+		font-size: 2rem
+
+@-webkit-keyframes scroll-background
+	from
+		background-position: 100% 0
+	to
+		background-position: 0 50%
+
+@-webkit-keyframes rotate
+	from
+		transform: rotate(0deg)
+	to
+		transform: rotate(360deg)
+
 #message-container
-	display: none
+	position: absolute
+	bottom: 20px
+	left: 20px
+	text-align: left
+
+	ul
+		list-style-type: none
+
+	li
+		padding: 0.25rem 0
 
 #game-scores
-
 	table
 		width: 400px
 		margin: 0 auto 1rem auto

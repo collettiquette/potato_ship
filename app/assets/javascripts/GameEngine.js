@@ -139,18 +139,20 @@ var GameEngine = function () {
 	  }
   }
 
-	var spawnMyPlayer = function (name) {
+	var spawnMyPlayer = function (name, position) {
           myPlayer = new Player(name);
           var mpSprite = myPlayer.create(true);
+          mpSprite.reset(position.x, position.y)
           playersGroup.add(mpSprite);
           players.push(myPlayer);
           game.camera.follow(mpSprite);
           ready = true;
+          $('#loading').fadeOut(200);
 	}
 
-	var spawnRemotePlayer = function (name, ship_type) {
-          var x = -50
-          var y = -50
+	var spawnRemotePlayer = function (name, ship_type, position) {
+          var x = position.x
+          var y = position.y
           var myPlayerz = new Player(name);
           var myPlayerSprite = myPlayerz.create(false, ship_type);
           myPlayerSprite.reset(x, y, 30);
