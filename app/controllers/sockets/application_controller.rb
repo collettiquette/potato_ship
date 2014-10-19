@@ -3,6 +3,10 @@ module Sockets
 
     private
 
+    def websocket_channel(game_id)
+      WebsocketRails["game_#{game_id}"]
+    end
+
     def redis
       WebsocketRails::Synchronization.singleton.redis
     end
