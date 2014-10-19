@@ -166,8 +166,8 @@ var GameEngine = function () {
           myPlayer.isDecelerating = cursors.down.isDown;
           myPlayer.isTurningLeft = cursors.left.isDown;
           myPlayer.isTurningRight = cursors.right.isDown;
-          
-          
+
+
           $.each(players, function (index, player) {
             player.update();
             game.physics.arcade.collide(player.bullets, obstacles, bullet_hits_obstacle);
@@ -184,11 +184,12 @@ var GameEngine = function () {
               left: myPlayer.isTurningLeft,
               right: myPlayer.isTurningRight
             };
-            
+
             ConnectionHandler.dispatcher.trigger('update_ship', {
               change: change,
               position: myPlayer.position(),
-              player_name: myPlayer.id
+              player_name: myPlayer.id,
+              game_id: ConnectionHandler.gameID
             });
           }
 	}
