@@ -184,6 +184,7 @@ var GameEngine = function () {
               left: myPlayer.isTurningLeft,
               right: myPlayer.isTurningRight
             };
+            
             ConnectionHandler.dispatcher.trigger('update_ship', {
               change: change,
               position: myPlayer.position(),

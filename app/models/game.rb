@@ -27,7 +27,7 @@ class Game
   end
 
   def full?
-    stats.length >= 3
+    stats.length >= 10
   end
 
   def remove(conn_id)
