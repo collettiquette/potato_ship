@@ -8,11 +8,12 @@ module Sockets
       score_stat = get_scoring_player_stat
       score_stat.score += 5
       score_stat.kills += 1
+      score_stat.save
 
       #update dead player
       dead_stat = get_dead_player_stat
       dead_stat.deaths += 1
-      store_games
+      dead_stat.save
       grab_scores
       if score_stat.kills >= 10
         websocket_channel(message[:game_id]).trigger(:end_game, message)
@@ -26,8 +27,7 @@ module Sockets
     private
 
     def grab_scores
-      game = games[message[:game_id]]
-      scores = game.stats.values.map(&:to_h)
+      scores = Stat.where(game_id: message[:game_id]).order(score: :desc).map(&:to_h)
       websocket_channel(message[:game_id]).trigger(:update_client_scores, scores)
     end
 
@@ -40,8 +40,7 @@ module Sockets
     end
 
     def get_player_stat(player_id)
-      p message[:game_id]
-      games[message[:game_id].to_s][player_id]
+      Stat.where(game_id: message[:game_id], player_id: Player.find_by(name: player_id)).first
     end
 
   end
