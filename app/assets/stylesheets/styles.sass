@@ -20,12 +20,17 @@ a
 		color: #fff
 
 #game-container
-	margin: 2rem
-
 	canvas
 		margin: 0 auto
-		border: 10px solid rgba(0, 0, 0, 0.3)
-		border-radius: 4px
+
+	#winning
+		display: none
+		position: absolute
+		left: 0
+		top: 0
+		right: 0
+		bottom: 0
+		background-color: rgba(0, 0, 0, 0.5)
 
 #message-container
 	display: none
@@ -44,6 +49,7 @@ a
 				background-color: rgba(0, 0, 0, 0.1)
 
 .rounded-window
+	position: relative
 	box-sizing: border-box
 	width: 800px
 	height: 600px
