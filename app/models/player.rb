@@ -8,8 +8,8 @@
 
 class Player < ActiveRecord::Base
   has_many :stats, dependent: :destroy
-  validates_uniqueness_of :name
-  validates_format_of :name, with: /\A\w+\z/
+  validates_uniqueness_of :name, message: 'must be unique'
+  validates_format_of :name, with: /\A\w+\z/, message: 'can only contain letters, numbers, and underscores'
 
   def historical_stats
     stats.select("sum(score)  AS score,

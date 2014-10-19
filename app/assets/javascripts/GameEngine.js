@@ -109,6 +109,9 @@ var GameEngine = function () {
 	}
 
 	var fireZeBullets = function () {
+		if (!myPlayer.ship.alive)
+			return;
+
 		myPlayer.shoot();
     var change = {
       up: false,
@@ -211,6 +214,7 @@ var GameEngine = function () {
                 player.isAccelerating = updatedData.change.up;
                 player.isTurningLeft = updatedData.change.left;
                 player.isTurningRight = updatedData.change.right;
+                player.ship.rotation = updatedData.position.angle
 
                 if (typeof(updatedData.health) != 'undefined'){
                     player.ship.health = updatedData.health;
@@ -223,8 +227,7 @@ var GameEngine = function () {
                       var tween = game.add.tween(player.ship);
                       tween.to({
                         x: updatedData.position.x,
-                        y: updatedData.position.y,
-                        rotation: updatedData.position.angle
+                        y: updatedData.position.y
                       }, 1000);
                       tween.start();
                     }
@@ -234,8 +237,7 @@ var GameEngine = function () {
                 var tween = game.add.tween(player.ship);
                 tween.to({
                   x: updatedData.position.x,
-                  y: updatedData.position.y,
-                  rotation: updatedData.position.angle
+                  y: updatedData.position.y
                 }, 1000);
                 tween.start();
                 return;
