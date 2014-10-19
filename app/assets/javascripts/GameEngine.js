@@ -144,7 +144,9 @@ var GameEngine = function () {
 
 	var deletePlayer = function(name) {
           $.each(players, function (index, player) {
-            if (player.id == name) {
+            if (typeof(player) == 'undefined'){
+              players.splice(index, 1);
+            } else if (player.id == name) {
               player.destroy();
               players.splice(index, 1);
 
