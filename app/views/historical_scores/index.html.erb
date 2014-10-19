@@ -1,17 +1,42 @@
-<h1>Scores</h1>
-<table>
-  <tr>
-    <th>Player</th>
-    <th>Score</th>
-    <th>Kills</th>
-    <th>Deaths</th>
-  </tr>
-  <%@scores.each do |score|%>
-    <tr>
-      <td><%=Player.find(score.player_id).name %></td>
-      <td><%=score.score %></td>
-      <td><%=score.kills %></td>
-      <td><%=score.deaths %></td>
-    </tr> 
-  <%end%>
-</table>
+
+<div id="historical-scores" class="rounded-window">
+  <h1>High Scores</h1>
+
+  <div id="game-scores">
+    <table>
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Score</th>
+          <th>Kills</th>
+          <th>Deaths</th>
+        </tr>
+      </thead>
+      <tbody id="score-container">
+        <tr>
+          <td>brandon</td>
+          <td>2</td>
+          <td>3</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>brandon</td>
+          <td>2</td>
+          <td>3</td>
+          <td>0</td>
+        </tr>
+        <%@scores.each do |score|%>
+          <tr>
+            <td><%=Player.find(score.player_id).name %></td>
+            <td><%=score.score %></td>
+            <td><%=score.kills %></td>
+            <td><%=score.deaths %></td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </div>
+
+  <a href="/">Back to the game</a>
+
+</div>

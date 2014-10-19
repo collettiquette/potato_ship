@@ -19,7 +19,7 @@
 
 var game_instance;
 
-$(document).ready( function() {
+var ready = function() {
 
   game_instance = GameEngine();
 
@@ -29,4 +29,7 @@ $(document).ready( function() {
     game_instance.init();
   }
 
-});
+};
+
+$(document).ready(ready);
+$(document).on('page:load', ready);
