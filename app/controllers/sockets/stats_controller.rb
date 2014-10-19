@@ -29,7 +29,7 @@ module Sockets
     def grab_scores
       game = games[message[:game_id]]
       scores = game.stats.values.map(&:to_h)
-      WebsocketRails[:da_game].trigger(:update_client_scores, scores)
+      websocket_channel(message[:game_id]).trigger(:update_client_scores, scores)
     end
 
     def get_stat_for_player
