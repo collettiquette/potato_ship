@@ -32,10 +32,9 @@ var ConnectionHandler = {
           PlayerHandler(response.player_name).init();
           ShipHandler().init();
           MessageHandler(ConnectionHandler.dispatcher, ConnectionHandler.channel).init();
-          ConnectionHandler.dispatcher.trigger('player_connected', response)
+          ConnectionHandler.dispatcher.trigger('player_connected', response);
         }
       );
-
     }
 
   }
