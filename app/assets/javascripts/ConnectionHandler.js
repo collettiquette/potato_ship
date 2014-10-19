@@ -48,6 +48,7 @@ var ConnectionHandler = {
 
     this.channel.bind('update_ship', function (data) {
       //console.log('Ship updated!');
+      console.log(data);
       game_instance.updatePlayers(data);
     })
 

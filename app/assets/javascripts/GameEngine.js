@@ -68,8 +68,6 @@ var GameEngine = function () {
 	}
 
 	var spawnMyPlayer = function (name) {
-		console.log('spawn');
-		console.log(playersGroup);
           myPlayer = new Player(name);
           var mpSprite = myPlayer.create();
           playersGroup.add(mpSprite);
@@ -114,57 +112,61 @@ var GameEngine = function () {
 	};
 
 	var updatePlayers = function (updatedData) {
-		$.each(players, function (index, player) {
-			if (player.id == updatedData.player_name) {
-				player.isDecelerating = updatedData.change.down;
-				player.isAccelerating = updatedData.change.up;
-				player.isTurningLeft = updatedData.change.left;
-				player.isTurningRight = updatedData.change.right;
-				//console.log(player);
-				return;
-			}
-		});
+          $.each(players, function (index, player) {
+            if (player.id == updatedData.player_name) {
+              player.isDecelerating = updatedData.change.down;
+              player.isAccelerating = updatedData.change.up;
+              player.isTurningLeft = updatedData.change.left;
+              player.isTurningRight = updatedData.change.right;
+              player.ship.x = updatedData.position.x;
+              player.ship.y = updatedData.position.y;
+              player.ship.rotation = updatedData.position.angle;
+              //console.log(player);
+              return;
+            }
+          });
 	};
 
 	var update = function () {
 
-		if (!ready)
-			return;
+          if (!ready)
+            return;
 
-        var input_change = (
-          myPlayer.isAccelerating != cursors.up.isDown ||
-          myPlayer.isDecelerating != cursors.down.isDown ||
-          myPlayer.isTurningLeft != cursors.left.isDown ||
-          myPlayer.isTurningRight != cursors.right.isDown
-        );
+          var input_change = (
+            myPlayer.isAccelerating != cursors.up.isDown ||
+            myPlayer.isDecelerating != cursors.down.isDown ||
+            myPlayer.isTurningLeft != cursors.left.isDown ||
+            myPlayer.isTurningRight != cursors.right.isDown
+          );
 
-        myPlayer.isAccelerating = cursors.up.isDown;
-        myPlayer.isDecelerating = cursors.down.isDown;
-        myPlayer.isTurningLeft = cursors.left.isDown;
-        myPlayer.isTurningRight = cursors.right.isDown;
-
-        $.each(players, function (index, player) {
-			player.update();
-			game.physics.arcade.collide(player.bullets, obstacles, bullet_hits_obstacle);
-			game.physics.arcade.collide(player.bullets, playersGroup, bullet_hits_player);
-        });
-
-        game.physics.arcade.collide(playersGroup, obstacles);
-        game.physics.arcade.collide(playersGroup, playersGroup);
-
-        if (input_change) {
-          var change = {
-            up: myPlayer.isAccelerating,
-            down: myPlayer.isDecelerating,
-            left: myPlayer.isTurningLeft,
-            right: myPlayer.isTurningRight
-          };
-          ConnectionHandler.dispatcher.trigger('update_ship', {
-            change: change,
-            position: myPlayer.position(),
-            player_name: myPlayer.id
+          myPlayer.isAccelerating = cursors.up.isDown;
+          myPlayer.isDecelerating = cursors.down.isDown;
+          myPlayer.isTurningLeft = cursors.left.isDown;
+          myPlayer.isTurningRight = cursors.right.isDown;
+          
+          
+          $.each(players, function (index, player) {
+            player.update();
+            game.physics.arcade.collide(player.bullets, obstacles, bullet_hits_obstacle);
+            game.physics.arcade.collide(player.bullets, playersGroup, bullet_hits_player);
           });
-        }
+
+          game.physics.arcade.collide(playersGroup, obstacles);
+          game.physics.arcade.collide(playersGroup, playersGroup);
+
+          if (input_change) {
+            var change = {
+              up: myPlayer.isAccelerating,
+              down: myPlayer.isDecelerating,
+              left: myPlayer.isTurningLeft,
+              right: myPlayer.isTurningRight
+            };
+            ConnectionHandler.dispatcher.trigger('update_ship', {
+              change: change,
+              position: myPlayer.position(),
+              player_name: myPlayer.id
+            });
+          }
 	}
 
 	var render = function () {

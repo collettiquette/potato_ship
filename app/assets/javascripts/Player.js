@@ -4,7 +4,7 @@ var Player = function (id) {
 	var drag = 200,
 		maxVelocity = 200;
 
-	var sprite,
+	var ship,
 		bullets,
 		isAccelerating = false,
 		isDecelerating = false,
@@ -13,14 +13,14 @@ var Player = function (id) {
 
 	var create = function () {
 		console.log('Player.create');
-		sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'player-ship');
+		this.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'player-ship');
 
-		game.physics.arcade.enable(sprite);
+		game.physics.arcade.enable(this.ship);
 
-		sprite.anchor.set(0.5);
-		sprite.body.collideWorldBounds = true;
-		sprite.body.drag.set(drag);
-		sprite.body.maxVelocity.set(maxVelocity);
+		this.ship.anchor.set(0.5);
+		this.ship.body.collideWorldBounds = true;
+		this.ship.body.drag.set(drag);
+		this.ship.body.maxVelocity.set(maxVelocity);
 
 		this.bullets = game.add.group();
 		this.bullets.enableBody = true;
@@ -36,49 +36,51 @@ var Player = function (id) {
 			this.bullets.add(bullet);
 		}
 
-		return sprite;
+		return this.ship;
 	};
 
 	var update = function () {
+          if(this.id != id)
+            console.log(this.isAccelerating);   
 		//console.log(sprite.x);
 		// The player's acceleration/deceleration
 		if (this.isAccelerating) {
-			game.physics.arcade.accelerationFromRotation(sprite.rotation, maxVelocity, sprite.body.acceleration);
+			game.physics.arcade.accelerationFromRotation(this.ship.rotation, maxVelocity, this.ship.body.acceleration);
 		} else if (this.isDecelerating) {
-			game.physics.arcade.accelerationFromRotation(sprite.rotation, -1 * maxVelocity, sprite.body.acceleration);
+			game.physics.arcade.accelerationFromRotation(this.ship.rotation, -1 * maxVelocity, this.ship.body.acceleration);
 		} else {
-			sprite.body.acceleration.set(0);
+			this.ship.body.acceleration.set(0);
 		}
 
 		// Turning the player
 		if (this.isTurningLeft) {
-			sprite.body.angularVelocity = -300;
+			this.ship.body.angularVelocity = -300;
 		} else if (this.isTurningRight) {
-			sprite.body.angularVelocity = 300;
+			this.ship.body.angularVelocity = 300;
 		} else {
-			sprite.body.angularVelocity = 0;
+			this.ship.body.angularVelocity = 0;
 		}
 	}
 
 	var destroy = function () {
-		sprite.destroy();
+		this.ship.destroy();
 	}
 
 	var shoot = function () {
 		var bullet = this.bullets.getFirstDead();
 
-		bullet.reset(sprite.x, sprite.y);
+		bullet.reset(this.ship.x, this.ship.y);
 		bullet.body.velocity.x = 0;
 		bullet.body.velocity.y = 0;
 
-		game.physics.arcade.velocityFromAngle(sprite.rotation * (180 / Math.PI), maxVelocity * 3, bullet.body.velocity);
+		game.physics.arcade.velocityFromAngle(this.ship.rotation * (180 / Math.PI), maxVelocity * 3, bullet.body.velocity);
 	}
 
 	var position = function () {
 		return {
-			x: sprite.x,
-			y: sprite.y,
-			angle: sprite.rotation
+			x: this.ship.x,
+			y: this.ship.y,
+			angle: this.ship.rotation
 		}
 	}
 
@@ -93,6 +95,7 @@ var Player = function (id) {
 		isDecelerating: isDecelerating,
 		isTurningLeft: isTurningLeft,
 		isTurningRight: isTurningRight,
+                ship: this.ship,
 		position: position
 	}
 
