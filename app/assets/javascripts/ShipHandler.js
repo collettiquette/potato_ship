@@ -8,6 +8,10 @@ var ShipHandler = function () {
       game_instance.fireRemoteBullet(data);
     });
 
+    ConnectionHandler.channel.bind('respawn_ship', function (data) {
+      game_instance.killAndRespawn(data.dead_player, data.new_position);
+    });
+
   };
 
   return {

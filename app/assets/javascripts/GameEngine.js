@@ -195,7 +195,8 @@ var GameEngine = function () {
             });
 
             if ( !ship.alive ) {
-              killAndRespawn(ship.player, bullet.player);
+              // ship.kill();
+              // killAndRespawn(ship.player, bullet.player);
               updateScores(ship.player, bullet.player);
             }
           }
@@ -214,7 +215,8 @@ var GameEngine = function () {
                     player.ship.health = updatedData.health;
 
                     if (player.ship.health <= 0) {
-                      killAndRespawn(player, null);
+                      // ship.kill();
+                      // killAndRespawn(player, null);
                       // player.ship.health = 30;
                     } else {
                       var tween = game.add.tween(player.ship);
@@ -243,7 +245,8 @@ var GameEngine = function () {
               myPlayer.ship.health = updatedData.health;
 
               if(myPlayer.ship.health <= 0){
-                killAndRespawn(myPlayer, null);
+                // ship.kill();
+                // killAndRespawn(myPlayer, null);
                 // myPlayer.ship.health = 30;
               }
             }
@@ -251,17 +254,17 @@ var GameEngine = function () {
 
 	};
 
-	var killAndRespawn = function (dead_player, kill_player) {
-          //make sure person is alive before bullet hits in bullet_hits_player
-            dead_player.ship.kill();
-            setTimeout(function () {
-              console.log("Health before reset: " + dead_player.ship.health);
-              dead_player.ship.reset(-50, -50, 30);
-              console.log("Health after reset: " + dead_player.ship.health);
-              dead_player.ship.revive(30);
-              console.log("Health after revive: " + dead_player.ship.health);
-              dead_player.ship.health = 30;
-            }, 3000);
+	var killAndRespawn = function (dead_player, new_position) {
+    $.each(players, function (index, player) {
+      if (player.id == dead_player) {
+        player.ship.kill();
+        setTimeout(function () {
+          player.ship.reset(new_position.x, new_position.y, 30);
+          player.ship.revive(30);
+          player.ship.health = 30;
+        }, 3000);
+      }
+    });
 	}
 
 	var updateScores = function (dead_player, kill_player) {
@@ -325,6 +328,7 @@ var GameEngine = function () {
 		fireRemoteBullet: fireRemoteBullet,
 		spawnRemotePlayer: spawnRemotePlayer,
 		spawnMyPlayer: spawnMyPlayer,
+    killAndRespawn: killAndRespawn,
 		deletePlayer: deletePlayer
 	};
 
