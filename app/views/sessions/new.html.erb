@@ -1,11 +1,3 @@
-<% if @player.errors.any? %>
-  <ul>
-    <% @player.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
-    <% end %>
-  </ul>
-<% end %>
-
 <div id="new-game" class="rounded-window">
 	<h2>Join a game</h2>
 	<%= form_for :sessions, url: sessions_path do |f| %>
@@ -26,5 +18,13 @@
 	  <%= text_field_tag "sessions[player_name]" ,@player.name, :placeholder => 'Pilot Name' %>
 
 	  <%= submit_tag "Join Game" %>
+
+	  <% if @player.errors.any? %>
+	  <ul class="validation-errors">
+	    <% @player.errors.full_messages.each do |message| %>
+	      <li><%= message %></li>
+	    <% end %>
+	  </ul>
+	<% end %>
 	<% end %>
 </div>
