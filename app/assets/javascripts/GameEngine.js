@@ -106,8 +106,8 @@ var GameEngine = function () {
 	}
 
 	var spawnRemotePlayer = function (name) {
-          var x = Math.random() * 1600;
-          var y = Math.random() * 1200;
+          var x = -50
+          var y = -50 
           var myPlayerz = new Player(name);
           var myPlayerSprite = myPlayerz.create();
           myPlayerSprite.reset(x, y);

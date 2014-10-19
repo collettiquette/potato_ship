@@ -1,11 +1,10 @@
 module Sockets
   class PlayersController < Sockets::ApplicationController
     def join_game
-      player_name = CGI::parse(message[:player_name]).keys.first
-      player = Player.find_by(name: player_name)
+      player = Player.find_by(name: message[:player_name])
       puts "Player connected #{player.name}"
       game = find_game
-      game[client_id] = Stat.new(player: player, game_id: game.id)
+      game[player.name] = Stat.new(player: player, game_id: game.id)
       games[game.id] = game
       store_games
       trigger_success game_id: game.id, player_name: player.name
@@ -13,6 +12,7 @@ module Sockets
 
     def player_connected
       game = games[message[:game_id]]
+      connection_store[:user_id] = message[:player_name]
 
       obstacles = game.obstacles.map(&:to_h)
       send_message(:include_obstacles, {
@@ -34,14 +34,14 @@ module Sockets
 
     def client_disconnected
       games.each do |game_id, game|
-        stat = game.remove(client_id)
+        stat = game.remove(connection_store[:user_id])
 
         if stat
           player = stat.player
 
           websocket_channel(game_id).trigger(:player_disconnected, { player_name: player.name })
           websocket_channel(game_id).trigger(:new_message, { message: "#{player.name} left game." })
-          puts "Player #{player.name} - #{client_id} disconnected"
+          puts "Player #{player.name} disconnected"
 
           break game
         end
