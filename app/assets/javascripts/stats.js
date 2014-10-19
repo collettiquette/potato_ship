@@ -5,16 +5,12 @@ var Stats = function(dispatcher,channel) {
 
   var dispatcher, channel, $scores = $("#score-container");
 
-  var update_score = function(game_id,player_id,new_score) {
-    dispatcher.trigger("update_score", { game_id: game_id, player_id: player_id, score: new_score });
-  }
-
-  var update_kills = function(game_id,player_id,new_kills) {
-    dispatcher.trigger("update_kills", { game_id: game_id, player_id: player_id, kills: new_kills });
-  }
-
-  var update_deaths = function(game_id,player_id,new_deaths) {
-    dispatcher.trigger("update_deaths", { game_id: game_id, player_id: player_id, deaths: new_deaths });
+  var update_score = function(game_id,scoring_player_id,dead_player_id) {
+    dispatcher.trigger("update_score",
+    { game_id: game_id,
+      socring_player: scoring_player_id,
+      dead_player: dead_player_id }
+    );
   }
 
   var grab_scores = function(game_id) {
@@ -35,8 +31,6 @@ var Stats = function(dispatcher,channel) {
 
   return {
     update_score: update_score,
-    update_kills: update_kills,
-    update_deaths: update_deaths,
     grab_scores: grab_scores
   }
 }

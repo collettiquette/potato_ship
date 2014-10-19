@@ -4,32 +4,23 @@ module Sockets
     end
 
     def update_score
-      stat = get_stat_for_player
-      stat.score += message[:score]
-      store_games
-      grab_scores
-    end
+      #update scoring player
+      score_stat = get_scoring_player_stat
+      score_stat.score += 5
+      score_stat.kills += 1
 
-    def update_kills
-      p message
-      stat = get_stat_for_player
-      stat.kills += message[:kills]
+      #update dead player
+      dead_stat = get_dead_player_stat
+      dead_stat.deaths += 1
       store_games
       grab_scores
-      if stat.kills >= 10
+      if score_stat.kills >= 10
         websocket_channel(message[:game_id]).trigger(:end_game, message)
         websocket_channel(message[:game_id]).trigger(:new_message,
           { message: "Game over" })
         websocket_channel(message[:game_id]).trigger(:new_message,
           { message: "#{message[:player_id]} won!" })
       end
-    end
-
-    def update_deaths
-      stat = get_stat_for_player
-      stat.deaths += message[:deaths]
-      store_games
-      grab_scores
     end
 
     private
@@ -40,8 +31,17 @@ module Sockets
       websocket_channel(message[:game_id]).trigger(:update_client_scores, scores)
     end
 
-    def get_stat_for_player
-      games[message[:game_id]][message[:player_id]]
+    def get_scoring_player_stat
+      get_player_stat(message[:scoring_player])
+    end
+
+    def get_dead_player_stat
+      get_player_stat(message[:dead_player])
+    end
+
+    def get_player_stat(player_id)
+      p message[:game_id]
+      games[message[:game_id].to_s][player_id]
     end
 
   end
