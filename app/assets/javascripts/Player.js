@@ -12,7 +12,7 @@ var Player = function (id) {
 		isTurningLeft = false,
 		isTurningRight = false;
 
-	var create = function () {
+	var create = function (isLocalPlayer) {
                 choices = ['one','two','three']
                 choice = choices[Math.floor(Math.random() * choices.length)]
 
@@ -31,7 +31,10 @@ var Player = function (id) {
 		this.bullets.enableBody = true;
 		// Add 20 bullets
 		for (var i = 0; i < 20; i++) {
-			var bullet = this.bullets.create(-100, -100, 'laser-green-thin');
+			if (isLocalPlayer)
+				var bullet = this.bullets.create(-100, -100, 'laser-green-thin');
+			else
+				var bullet = this.bullets.create(-100, -100, 'laser-blue-thin');
 			bullet.kill();
 			//bullet.body.collideWorldBounds = true;
 			bullet.checkWorldBounds = true;

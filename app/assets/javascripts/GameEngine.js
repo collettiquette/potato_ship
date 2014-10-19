@@ -31,6 +31,7 @@ var GameEngine = function () {
 
 		// Lasers
 		game.load.image('laser-green-thin', '/images/laser-green-thin.png');
+		game.load.image('laser-blue-thin', '/images/laser-blue-thin.png');
 
 		// Obstacles
 		game.load.image('obstacle-one', '/images/obstacle-one.png');
@@ -125,7 +126,7 @@ var GameEngine = function () {
 
 	var spawnMyPlayer = function (name) {
           myPlayer = new Player(name);
-          var mpSprite = myPlayer.create();
+          var mpSprite = myPlayer.create(true);
           playersGroup.add(mpSprite);
           players.push(myPlayer);
           game.camera.follow(mpSprite);
